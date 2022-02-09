@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -40,10 +38,8 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        this.signUserIn(loginDto.getUsernameOrEmail(), loginDto.getPassword());
 
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
     }
@@ -72,10 +68,20 @@ public class AuthController {
 
         Role role = roleRepository.findById(signUpDto.getRoleId()).get();
 
-        user.setRoles(Collections.singleton(role));
+        user.setRole(role);
 
         userRepository.save(user);
 
+        // sign user in after account has been created
+        this.signUserIn(user.getEmail(), signUpDto.getPassword());
+
         return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    private void signUserIn(String usernameOrEmail, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(usernameOrEmail, password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

@@ -15,14 +15,15 @@ public class RoleSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (roleRepository.count() == 0) {
-            this.createRole("TEACHER");
-            this.createRole("STUDENT");
+            this.createRole("TEACHER", "Teacher");
+            this.createRole("STUDENT", "Student");
         }
     }
 
-    private void createRole(String name) {
+    private void createRole(String name, String displayName) {
         Role role = new Role();
         role.setName(name);
+        role.setDisplayName(displayName);
         roleRepository.save(role);
         System.out.println(String.format("Role %s created", name));
     }
