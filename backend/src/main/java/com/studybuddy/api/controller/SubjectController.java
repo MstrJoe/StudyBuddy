@@ -35,7 +35,6 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-
     @PostMapping()
     public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
         Subject subject = new Subject();
@@ -59,7 +58,7 @@ public class SubjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Subject> deleteSubject(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
 
         if (currentSubject.isEmpty()) {
@@ -68,6 +67,6 @@ public class SubjectController {
 
         Subject subject = currentSubject.get();
         this.subjectRepository.delete(subject);
-        return new ResponseEntity<>(subject, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

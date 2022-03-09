@@ -12,22 +12,17 @@ export function UserProvider({ children }) {
     setUser(null);
   }, []);
 
-  const initialize = useCallback(() => {
+  const initialize = useCallback(async () => {
     if (!user) {
       setLoading(true);
-      apiClient
-        .get('/user/me')
-        .then(res => {
-          setUser(res.data);
-        })
-        .catch(() => {
-          logout();
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-
-      console.log('dfgdfgfd');
+      try {
+        const { data } = await apiClient.get('/user/me');
+        setUser(data);
+      } catch {
+        logout();
+      } finally {
+        setLoading(false);
+      }
     }
   }, [logout, user]);
 

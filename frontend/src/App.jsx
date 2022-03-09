@@ -82,6 +82,7 @@ function App() {
         <Route path="/" element={<StudentDashboardPage />} />
         <Route path="/subjects" element={<SubjectsPage />} />
         <Route path="/subjects/add" element={<SubjectDetailPage />} />
+        <Route path="/subjects/edit/:id" element={<SubjectDetailPage />} />
 
         <Route path="/agenda" element={<AgendaPage />} />
         <Route path="/homework" element={<HomeworkPage />} />

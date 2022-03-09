@@ -5,13 +5,13 @@ import { FormField } from './FormField';
 
 const defaultValues = { name: '' };
 
-export function SubjectForm({ initialValues = defaultValues, onSubmit }) {
+export function SubjectForm({ initialValues = defaultValues, onSubmit, mode }) {
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
       <Form>
         <FormField name="name" label="Subject name" placeholder="Insert name here"></FormField>
 
-        <Button type="submit">Add subject</Button>
+        <Button type="submit">{mode === 'edit' ? 'Edit' : 'Add'} subject</Button>
       </Form>
     </Formik>
   );

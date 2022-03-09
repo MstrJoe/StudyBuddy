@@ -7,7 +7,10 @@ import { Button } from './Button';
 import { FormField } from './FormField';
 
 export function SignUpForm({ onSubmit, initialValues }) {
-  const { data: roles } = useQuery('roles', () => apiClient.get('/role').then(res => res.data));
+  const { data: roles } = useQuery('roles', async () => {
+    const { data } = await apiClient.get('/role');
+    return data;
+  });
 
   return (
     <>
