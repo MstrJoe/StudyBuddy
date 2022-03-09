@@ -1,11 +1,13 @@
 package com.studybuddy.api.controller;
 
 import com.studybuddy.api.entity.Subject;
+import com.studybuddy.api.payload.SubjectDto;
 import com.studybuddy.api.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +21,14 @@ public class SubjectController {
     @GetMapping()
     public List<Subject> getSubjects() {
         return this.subjectRepository.findAll();
+    }
+
+    @PostMapping()
+    public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
+        Subject subject = new Subject();
+        subject.setName(data.getName());
+        subjectRepository.save(subject);
+        return new ResponseEntity<>(subject, HttpStatus.CREATED);
     }
 
 }
