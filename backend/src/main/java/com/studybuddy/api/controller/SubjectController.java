@@ -1,7 +1,10 @@
 package com.studybuddy.api.controller;
 
+import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.entity.Subject;
+import com.studybuddy.api.payload.HomeworkDto;
 import com.studybuddy.api.payload.SubjectDto;
+import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ public class SubjectController {
 
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private HomeworkRepository homeworkRepository;
 
     @GetMapping()
     public List<Subject> getSubjects() {
@@ -69,4 +74,24 @@ public class SubjectController {
         this.subjectRepository.delete(subject);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/{subjectId}/homework")
+    public ResponseEntity<Homework> createSubject(@PathVariable Long subjectId, @RequestBody HomeworkDto homeworkData) {
+        Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
+
+        if (currentSubject.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+        }
+
+        Subject subject = currentSubject.get();
+        Homework homework = new Homework();
+        homework.setName(homeworkData.getName());
+        homework.setDeadline(homeworkData.getDeadline());
+        homework.setDescription(homeworkData.getDescription());
+        homework.setLink(homeworkData.getLink());
+        homework.setSubject(subject);
+        this.homeworkRepository.save(homework);
+        return new ResponseEntity<>(homework, HttpStatus.CREATED);
+    }
+
 }
