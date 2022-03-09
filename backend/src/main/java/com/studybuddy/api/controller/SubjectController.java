@@ -25,6 +25,17 @@ public class SubjectController {
         return this.subjectRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Subject> getSubject(@PathVariable Long id) {
+        Optional<Subject> currentSubject = this.subjectRepository.findById(id);
+        if (currentSubject.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+        }
+        Subject subject = currentSubject.get();
+        return new ResponseEntity<>(subject, HttpStatus.OK);
+    }
+
+
     @PostMapping()
     public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
         Subject subject = new Subject();
