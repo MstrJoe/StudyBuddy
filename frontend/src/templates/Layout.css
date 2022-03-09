@@ -1,0 +1,25 @@
+.sidebar {
+  width: 300px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #ccc;
+}
+
+main {
+  margin-left: 350px;
+}
+
+.profile-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: blue;
+  padding: 10px;
+  color: #fff;
+}
+
+.profile-link {
+  color: #fff;
+}

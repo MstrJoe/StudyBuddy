@@ -26,6 +26,7 @@ export function SignUpForm({ onSubmit, initialValues }) {
               <FormField type="password" name="password" label="Password" placeholder="Password" />
 
               <FormField as="select" name="roleId" label="Role">
+                <option disabled>Pick one</option>
                 {roles?.map(role => (
                   <option key={role.id} value={role.id}>
                     {role.name}

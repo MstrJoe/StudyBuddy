@@ -26,6 +26,8 @@ export function UserProvider({ children }) {
         .finally(() => {
           setLoading(false);
         });
+
+      console.log('dfgdfgfd');
     }
   }, [logout, user]);
 
