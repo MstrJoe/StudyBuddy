@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { apiClient } from '../../services/api';
+import { HomeworkItem } from '../../components/HomeworkItem';
 
 function SubjectItem({ subject, onSuccess }) {
   const navigate = useNavigate();
@@ -19,12 +20,12 @@ function SubjectItem({ subject, onSuccess }) {
 
   return (
     <li key={subject.id}>
-      {subject.name} <button onClick={() => deleteHandler()}>Delete</button>{' '}
+      {subject.name} <button disabled={subject.homework.length > 0} onClick={() => deleteHandler()}>Delete</button>{' '}
       <button onClick={() => editHandler()}>Edit</button>
       <h2>Homework</h2>
       <ul>
         {subject.homework.map(homework => (
-          <li key={homework.id}>{homework.name}</li>
+          <HomeworkItem key={homework.id} homework={homework} onSuccess={onSuccess} />
         ))}
         <li>
           <Link to={`/subjects/${subject.id}/create-homework`}>Add homework</Link>
@@ -33,6 +34,8 @@ function SubjectItem({ subject, onSuccess }) {
     </li>
   );
 }
+
+
 
 export function SubjectsPage() {
   const { data, error, isLoading, refetch } = useQuery('subjects', async () => {

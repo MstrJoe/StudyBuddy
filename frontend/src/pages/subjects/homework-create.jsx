@@ -1,15 +1,15 @@
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { SubjectForm } from '../../components/SubjectForm';
 import { apiClient } from '../../services/api';
+import { HomeworkForm } from '../../components/HomeworkForm';
 
-export function SubjectDetailPage() {
-  const { id: subjectId } = useParams();
+export function HomeworkCreatePage() {
+  const { subjectId } = useParams();
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(
-    'subject',
+  const { data: subject, isLoading } = useQuery(
+    ['subject', subjectId],
     async () => {
       const { data } = await apiClient.get(`/subject/${subjectId}`);
       return data;
@@ -20,28 +20,28 @@ export function SubjectDetailPage() {
   );
 
   async function submitHandler(values, form) {
+    console.log(values);
     try {
-      if (subjectId) {
-        await apiClient.put(`/subject/${subjectId}`, values);
-        navigate('/subjects');
-      } else {
-        await apiClient.post('/subject', values);
-      }
+      await apiClient.post(`/subject/${subjectId}/homework`, values);
       navigate('/subjects');
     } catch {
-      alert('Something went wrong');
+      // handle error
     }
+  }
+
+  if (!subject) {
+    return <></>;
   }
 
   return (
     <div>
       <Link to="/subjects">Back</Link>
-      <h2>{subjectId ? 'Edit' : 'Add'} form</h2>
+      <h2>Add homework to {subject.name}</h2>
       {!isLoading && (
-        <SubjectForm
-          mode={subjectId ? 'edit' : 'create'}
+        <HomeworkForm
+          mode={"create"}
           onSubmit={submitHandler}
-          initialValues={subjectId && data}
+          // initialValues={subjectId && data}
         />
       )}
     </div>
