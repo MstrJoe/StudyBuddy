@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { Button } from './Button';
 import { FormField } from './FormField';
 
-export function LoginForm({ onSubmit, initialValues }) {
+const defaultValues = {};
+
+export function LoginForm({ onSubmit, initialValues = defaultValues }) {
   return (
     <>
       <h1>Log in</h1>

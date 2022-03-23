@@ -6,7 +6,9 @@ import { apiClient } from '../services/api';
 import { Button } from './Button';
 import { FormField } from './FormField';
 
-export function SignUpForm({ onSubmit, initialValues }) {
+const defaultValues = {};
+
+export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
   const { data: roles } = useQuery('roles', async () => {
     const { data } = await apiClient.get('/role');
     return data;
@@ -29,7 +31,9 @@ export function SignUpForm({ onSubmit, initialValues }) {
               <FormField type="password" name="password" label="Password" placeholder="Password" />
 
               <FormField as="select" name="roleId" label="Role">
-                <option disabled>Pick one</option>
+                <option disabled selected>
+                  Pick one
+                </option>
                 {roles?.map(role => (
                   <option key={role.id} value={role.id}>
                     {role.name}

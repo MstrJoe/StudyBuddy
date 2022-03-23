@@ -23,6 +23,7 @@ export function LoginPage() {
   async function signup(values) {
     try {
       await apiClient.post('/auth/signup', values);
+      initialize();
     } catch (err) {
       console.error(err);
     }
@@ -31,9 +32,9 @@ export function LoginPage() {
   return (
     <div>
       {searchParams.get('mode') === 'sign-up' ? (
-        <SignUpForm onSubmit={signup} initialValues={{}} />
+        <SignUpForm onSubmit={signup} />
       ) : (
-        <LoginForm onSubmit={login} initialValues={{}} />
+        <LoginForm onSubmit={login} />
       )}
     </div>
   );

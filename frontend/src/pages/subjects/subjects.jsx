@@ -21,6 +21,15 @@ function SubjectItem({ subject, onSuccess }) {
     <li key={subject.id}>
       {subject.name} <button onClick={() => deleteHandler()}>Delete</button>{' '}
       <button onClick={() => editHandler()}>Edit</button>
+      <h2>Homework</h2>
+      <ul>
+        {subject.homework.map(homework => (
+          <li key={homework.id}>{homework.name}</li>
+        ))}
+        <li>
+          <Link to={`/subjects/${subject.id}/create-homework`}>Add homework</Link>
+        </li>
+      </ul>
     </li>
   );
 }
