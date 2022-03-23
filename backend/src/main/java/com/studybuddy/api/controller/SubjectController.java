@@ -9,7 +9,6 @@ import com.studybuddy.api.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -40,6 +39,7 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping()
     public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
         Subject subject = new Subject();
@@ -48,6 +48,8 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.CREATED);
     }
 
+
+//    @PreAuthorize("hasRole('TEACHER')")
     @PutMapping("/{id}")
     public ResponseEntity<Subject> createSubject(@PathVariable Long id, @RequestBody SubjectDto data) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
@@ -62,6 +64,7 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
+//    @PreAuthorize("hasRole('TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
