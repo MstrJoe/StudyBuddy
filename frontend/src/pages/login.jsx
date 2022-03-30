@@ -16,7 +16,7 @@ export function LoginPage() {
       await apiClient.post('/auth/signin', values);
       initialize();
     } catch (err) {
-      console.error(err);
+      alert('Something went wrong');
     }
   }
 
@@ -25,7 +25,7 @@ export function LoginPage() {
       await apiClient.post('/auth/signup', values);
       initialize();
     } catch (err) {
-      console.error(err);
+      alert('Something went wrong');
     }
   }
 

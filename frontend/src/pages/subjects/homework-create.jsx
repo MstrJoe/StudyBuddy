@@ -1,8 +1,9 @@
+import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { apiClient } from '../../services/api';
 import { HomeworkForm } from '../../components/HomeworkForm';
+import { apiClient } from '../../services/api';
 
 export function HomeworkCreatePage() {
   const { subjectId } = useParams();
@@ -20,12 +21,13 @@ export function HomeworkCreatePage() {
   );
 
   async function submitHandler(values, form) {
-    console.log(values);
     try {
+      const { deadlineDate, deadlineTime, ...input } = values;
+      input.deadline = dayjs(`${deadlineDate} ${deadlineTime}`).toDate();
       await apiClient.post(`/subject/${subjectId}/homework`, values);
       navigate('/subjects');
     } catch {
-      // handle error
+      alert('Something went wrong');
     }
   }
 
@@ -39,7 +41,7 @@ export function HomeworkCreatePage() {
       <h2>Add homework to {subject.name}</h2>
       {!isLoading && (
         <HomeworkForm
-          mode={"create"}
+          mode={'create'}
           onSubmit={submitHandler}
           // initialValues={subjectId && data}
         />
