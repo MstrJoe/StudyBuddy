@@ -8,6 +8,7 @@ import com.studybuddy.api.repository.HomeworkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,6 +37,7 @@ public class HomeworkController {
         return new ResponseEntity<>(homework, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
     public ResponseEntity<Homework> createSubject(@PathVariable Long id, @RequestBody HomeworkDto data) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
@@ -53,6 +55,7 @@ public class HomeworkController {
         return new ResponseEntity<>(homework, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);

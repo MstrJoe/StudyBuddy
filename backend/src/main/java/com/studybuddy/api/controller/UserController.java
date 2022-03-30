@@ -7,6 +7,7 @@ import com.studybuddy.api.payload.UserUpdateDto;
 import com.studybuddy.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,6 @@ public class UserController {
 
     @PutMapping("/me")
     public User updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
-
-        System.out.println(data);
 
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
 
@@ -54,7 +53,10 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public User currentUser(Principal principal) {
-        return this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+    public Principal currentUser(Principal principal) {
+
+            return principal;
+
+//        return this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
     }
 }
