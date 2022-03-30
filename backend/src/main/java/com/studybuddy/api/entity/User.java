@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,6 +39,17 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "createdBy")
+    private Set<AgendaItem> agendaItemsCreated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "agenda_items_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "agenda_item_id"))
+    Set<AgendaItem> agendaItemsSubscribed;
+
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

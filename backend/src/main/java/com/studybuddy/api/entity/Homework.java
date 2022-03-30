@@ -28,8 +28,8 @@ public class Homework {
     private String description;
     private String link;
 
-    @JsonIgnore // hides the field in the JSON response
-    @ManyToOne()
+    @ManyToOne() //A relationship is a connection between two types of entities.
+    // In the case of a many-to-many relationship, both sides can relate to multiple instances of the other side.
     @JoinColumn(name = "subject_id")
     private Subject subject;
 

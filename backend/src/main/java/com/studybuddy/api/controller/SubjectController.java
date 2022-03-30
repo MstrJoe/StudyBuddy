@@ -1,7 +1,9 @@
 package com.studybuddy.api.controller;
 
+import com.studybuddy.api.entity.AgendaItem;
 import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.entity.Subject;
+import com.studybuddy.api.payload.AgendaItemDto;
 import com.studybuddy.api.payload.HomeworkDto;
 import com.studybuddy.api.payload.SubjectDto;
 import com.studybuddy.api.repository.HomeworkRepository;
@@ -39,7 +41,7 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasRole('TEACHER')")
+    //    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping()
     public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
         Subject subject = new Subject();
@@ -49,7 +51,7 @@ public class SubjectController {
     }
 
 
-//    @PreAuthorize("hasRole('TEACHER')")
+    //    @PreAuthorize("hasRole('TEACHER')")
     @PutMapping("/{id}")
     public ResponseEntity<Subject> createSubject(@PathVariable Long id, @RequestBody SubjectDto data) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
@@ -64,7 +66,7 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasRole('TEACHER')")
+    //    @PreAuthorize("hasRole('TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
@@ -96,5 +98,7 @@ public class SubjectController {
         this.homeworkRepository.save(homework);
         return new ResponseEntity<>(homework, HttpStatus.CREATED);
     }
+
+
 
 }
