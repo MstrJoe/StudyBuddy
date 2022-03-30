@@ -26,7 +26,7 @@ public class Subject {
     private String name;
 
     @OneToMany(mappedBy = "subject")
-    private List<Homework> homework = new ArrayList<Homework>();
+    private List<Homework> homework = new ArrayList<>();
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

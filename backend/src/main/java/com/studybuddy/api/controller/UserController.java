@@ -3,11 +3,11 @@ package com.studybuddy.api.controller;
 import java.security.Principal;
 
 import com.studybuddy.api.entity.User;
+import com.studybuddy.api.payload.UserMeResponseDto;
 import com.studybuddy.api.payload.UserUpdateDto;
 import com.studybuddy.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PutMapping("/me")
-    public User updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
+    public UserMeResponseDto updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
 
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
 
@@ -49,11 +49,12 @@ public class UserController {
 
         this.userRepository.save(user);
 
-        return user;
+        return new UserMeResponseDto(user);
     }
 
     @GetMapping("/me")
-    public User currentUser(Principal principal) {
-        return this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+    public UserMeResponseDto currentUser(Principal principal) {
+        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        return new UserMeResponseDto(user);
     }
 }

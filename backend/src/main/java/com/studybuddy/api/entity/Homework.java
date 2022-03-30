@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -24,14 +26,20 @@ public class Homework {
     private String name;
     private Date deadline;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String link;
 
-    @ManyToOne() //A relationship is a connection between two types of entities.
-    // In the case of a many-to-many relationship, both sides can relate to multiple instances of the other side.
+    @JsonIgnore // hides the field in the JSON response
+    @ManyToOne() // A relationship is a connection between two types of entities.
+    // In the case of a many-to-many relationship, both sides can relate to multiple
+    // instances of the other side.
     @JoinColumn(name = "subject_id")
     private Subject subject;
+
+    @JsonIgnore // hides the field in the JSON response
+    @OneToMany(mappedBy = "homework")
+    private Set<AgendaItem> agendaItems;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

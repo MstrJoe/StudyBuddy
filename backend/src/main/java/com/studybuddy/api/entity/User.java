@@ -43,6 +43,7 @@ public class User {
     @OneToMany(mappedBy = "createdBy")
     private Set<AgendaItem> agendaItemsCreated;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "agenda_items_users",

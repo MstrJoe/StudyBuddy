@@ -24,7 +24,7 @@ export function HomeworkCreatePage() {
     try {
       const { deadlineDate, deadlineTime, ...input } = values;
       input.deadline = dayjs(`${deadlineDate} ${deadlineTime}`).toDate();
-      await apiClient.post(`/subject/${subjectId}/homework`, values);
+      await apiClient.post(`/subject/${subjectId}/homework`, input);
       navigate('/subjects');
     } catch {
       alert('Something went wrong');

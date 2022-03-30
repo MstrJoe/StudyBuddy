@@ -1,6 +1,7 @@
 package com.studybuddy.api.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,6 +26,11 @@ public class AgendaItem {
     private String description;
     private String link;
 
+    @ManyToOne()
+    @JoinColumn(name = "homework_id")
+    private Homework homework;
+
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User createdBy;

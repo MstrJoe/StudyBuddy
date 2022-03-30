@@ -2,11 +2,10 @@ package com.studybuddy.api.controller;
 
 import com.studybuddy.api.entity.AgendaItem;
 import com.studybuddy.api.entity.Homework;
-import com.studybuddy.api.entity.Subject;
 import com.studybuddy.api.entity.User;
 import com.studybuddy.api.payload.AgendaItemDto;
 import com.studybuddy.api.payload.HomeworkDto;
-import com.studybuddy.api.payload.SubjectDto;
+import com.studybuddy.api.repository.AgendaItemRepository;
 import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ public class HomeworkController {
 
     @Autowired
     private HomeworkRepository homeworkRepository;
+
+    @Autowired
+    private AgendaItemRepository agendaItemRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -78,7 +80,7 @@ public class HomeworkController {
     }
 
     @PostMapping("/{homeworkId}/agendaitem")
-    public ResponseEntity<Homework> createAgendaItem(Principal principal, @PathVariable Long homeworkId, @RequestBody AgendaItemDto agendaItemData) {
+    public ResponseEntity<AgendaItem> createAgendaItem(Principal principal, @PathVariable Long homeworkId, @RequestBody AgendaItemDto agendaItemData) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(homeworkId);
 
         if (currentHomework.isEmpty()) {
@@ -94,8 +96,9 @@ public class HomeworkController {
         agendaItem.setDescription(agendaItemData.getDescription());
         agendaItem.setLink(agendaItemData.getLink());
         agendaItem.setCreatedBy(user);
-        this.homeworkRepository.save(homework);
-        return new ResponseEntity<>(homework, HttpStatus.CREATED);
+        agendaItem.setHomework(homework);
+        this.agendaItemRepository.save(agendaItem);
+        return new ResponseEntity<>(agendaItem, HttpStatus.CREATED);
     }
 }
 

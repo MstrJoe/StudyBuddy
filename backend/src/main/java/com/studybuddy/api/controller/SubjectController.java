@@ -4,6 +4,8 @@ import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.entity.Subject;
 import com.studybuddy.api.payload.HomeworkDto;
 import com.studybuddy.api.payload.SubjectDto;
+import com.studybuddy.api.payload.SubjectHomeworkResponseDto;
+import com.studybuddy.api.payload.SubjectResponseDto;
 import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,32 +31,41 @@ public class SubjectController {
     private HomeworkRepository homeworkRepository;
 
     @GetMapping()
-    public List<Subject> getSubjects() {
-        return this.subjectRepository.findAll();
+    public List<SubjectResponseDto> getSubjects() {
+        List<SubjectResponseDto> response = new ArrayList<>();
+
+        List<Subject> subjects = this.subjectRepository.findAll();
+
+        for (Subject subject : subjects) {
+            response.add(new SubjectResponseDto(subject));
+        }
+
+        return response;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Subject> getSubject(@PathVariable Long id) {
+    public ResponseEntity<SubjectResponseDto> getSubject(@PathVariable Long id) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
         if (currentSubject.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
         }
         Subject subject = currentSubject.get();
-        return new ResponseEntity<>(subject, HttpStatus.OK);
+
+        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping()
-    public ResponseEntity<Subject> createSubject(@RequestBody SubjectDto data) {
+    public ResponseEntity<SubjectResponseDto> createSubject(@RequestBody SubjectDto data) {
         Subject subject = new Subject();
         subject.setName(data.getName());
         subjectRepository.save(subject);
-        return new ResponseEntity<>(subject, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
-    public ResponseEntity<Subject> createSubject(@PathVariable Long id, @RequestBody SubjectDto data) {
+    public ResponseEntity<SubjectResponseDto> createSubject(@PathVariable Long id, @RequestBody SubjectDto data) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
 
         if (currentSubject.isEmpty()) {
@@ -63,7 +75,7 @@ public class SubjectController {
         Subject subject = currentSubject.get();
         subject.setName(data.getName());
         this.subjectRepository.save(subject);
-        return new ResponseEntity<>(subject, HttpStatus.OK);
+        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
@@ -82,7 +94,7 @@ public class SubjectController {
 
 //    @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/{subjectId}/homework")
-    public ResponseEntity<Homework> createSubject(@PathVariable Long subjectId, @RequestBody HomeworkDto homeworkData) {
+    public ResponseEntity<SubjectHomeworkResponseDto> createSubject(@PathVariable Long subjectId, @RequestBody HomeworkDto homeworkData) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
 
         if (currentSubject.isEmpty()) {
@@ -97,7 +109,7 @@ public class SubjectController {
         homework.setLink(homeworkData.getLink());
         homework.setSubject(subject);
         this.homeworkRepository.save(homework);
-        return new ResponseEntity<>(homework, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SubjectHomeworkResponseDto(homework), HttpStatus.CREATED);
     }
 
 }

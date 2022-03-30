@@ -7,6 +7,7 @@ import { FormField } from './FormField';
 const defaultValues = {
   name: '',
   description: '',
+  link: '',
   deadlineDate: dayjs(new Date()).format('YYYY-MM-DD'),
   deadlineTime: dayjs(new Date()).format('HH:mm'),
 };
@@ -22,6 +23,7 @@ export function HomeworkForm({ initialValues = defaultValues, onSubmit, mode }) 
           placeholder="Insert name here"
         ></FormField>
         <FormField
+          as="textarea"
           name="description"
           label="Description"
           placeholder="Insert homework description"
