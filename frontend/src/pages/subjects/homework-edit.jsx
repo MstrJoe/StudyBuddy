@@ -1,8 +1,9 @@
+import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { apiClient } from '../../services/api';
 import { HomeworkForm } from '../../components/HomeworkForm';
+import { apiClient } from '../../services/api';
 
 export function HomeworkEditPage() {
   const { id: homeworkId } = useParams();
@@ -15,10 +16,12 @@ export function HomeworkEditPage() {
 
   async function submitHandler(values, form) {
     try {
-      await apiClient.put(`/homework/${homeworkId}`, values);
+      const { deadlineDate, deadlineTime, ...input } = values;
+      input.deadline = dayjs(`${deadlineDate} ${deadlineTime}`).format();
+      await apiClient.put(`/homework/${homeworkId}`, input);
       navigate('/subjects');
     } catch {
-      // handle error
+      alert('Something went wrong');
     }
   }
 
@@ -36,17 +39,8 @@ export function HomeworkEditPage() {
           onSubmit={submitHandler}
           initialValues={{
             ...homework,
-            // https://stackoverflow.com/questions/28760254/assign-javascript-date-to-html5-datetime-local-input
-            deadline: new Date(homework.deadline)
-              .toLocaleString('sv-SE', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-              })
-              .replace(' ', 'T'),
+            deadlineDate: dayjs(new Date(homework.deadline)).format('YYYY-MM-DD'),
+            deadlineTime: dayjs(new Date(homework.deadline)).format('HH:mm'),
           }}
         />
       )}

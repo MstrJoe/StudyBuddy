@@ -80,7 +80,7 @@ public class SubjectController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+//    @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/{subjectId}/homework")
     public ResponseEntity<Homework> createSubject(@PathVariable Long subjectId, @RequestBody HomeworkDto homeworkData) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
