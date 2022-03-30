@@ -53,10 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public Principal currentUser(Principal principal) {
-
-            return principal;
-
-//        return this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+    public User currentUser(Principal principal) {
+        return this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
     }
 }

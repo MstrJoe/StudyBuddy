@@ -23,15 +23,15 @@ public class HomeworkController {
     private HomeworkRepository homeworkRepository;
 
     @GetMapping()
-    public List<Homework> getSubjects() {
+    public List<Homework> getHomeworkCollection() {
         return this.homeworkRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Homework> getSubject(@PathVariable Long id) {
+    public ResponseEntity<Homework> getHomework(@PathVariable Long id) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
         if (currentHomework.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");
         }
         Homework homework = currentHomework.get();
         return new ResponseEntity<>(homework, HttpStatus.OK);
@@ -39,7 +39,7 @@ public class HomeworkController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
-    public ResponseEntity<Homework> createSubject(@PathVariable Long id, @RequestBody HomeworkDto data) {
+    public ResponseEntity<Homework> createHomework(@PathVariable Long id, @RequestBody HomeworkDto data) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
 
         if (currentHomework.isEmpty()) {
@@ -57,7 +57,7 @@ public class HomeworkController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteHomework(@PathVariable Long id) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
 
         if (currentHomework.isEmpty()) {

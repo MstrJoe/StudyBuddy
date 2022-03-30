@@ -2,6 +2,7 @@ package com.studybuddy.api.entity;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,10 +24,11 @@ public class Homework {
     private String name;
     private Date deadline;
 
-    @Lob // long text
+    @Column(columnDefinition="TEXT")
     private String description;
     private String link;
 
+    @JsonIgnore // hides the field in the JSON response
     @ManyToOne()
     @JoinColumn(name = "subject_id")
     private Subject subject;
