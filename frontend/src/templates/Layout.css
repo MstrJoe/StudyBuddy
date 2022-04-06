@@ -1,14 +1,20 @@
-.sidebar {
-  width: 300px;
+.header {
   position: fixed;
-  left: 0;
   top: 0;
-  bottom: 0;
-  background-color: #ccc;
+  height: 60px;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
 }
 
 main {
-  margin-left: 350px;
+  padding: 40px;
+  padding-top: 60px;
+  background-color: #eee;
 }
 
 .profile-nav {

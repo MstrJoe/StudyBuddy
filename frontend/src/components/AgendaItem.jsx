@@ -1,4 +1,5 @@
-import axios from 'axios';
+import './AgendaItem.scss';
+
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -41,6 +42,19 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
       <p>Homework: {item.homework.name}</p>
       <p>When: {dayjs(item.moment).format('DD/MM/YYYY')}</p>
       <p>Hosted by: {item.createdBy.name}</p>
+
+      {item.subscribers.length > 0 && (
+        <>
+          <p>Subscribers:</p>
+          <ul>
+            {item.subscribers.map(item => (
+              <li key={item.id}>
+                <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
       {canSubscribe && (
         <Button onClick={subscribeHandler}>
