@@ -1,11 +1,8 @@
 import { useQuery } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
-import { Drawer } from '../../components/Drawer';
 import { HomeworkItem } from '../../components/HomeworkItem';
 import { apiClient } from '../../services/api';
-import { useDelayedOutlet } from '../../utils/useDelayedOutlet';
 
 function SubjectItem({ subject, onSuccess }) {
   const navigate = useNavigate();
@@ -41,15 +38,11 @@ function SubjectItem({ subject, onSuccess }) {
   );
 }
 
-const DELAY = 300;
-
 export function SubjectsPage() {
   const { data, error, isLoading, refetch } = useQuery('subjects', async () => {
     const { data } = await apiClient.get('/subject');
     return data;
   });
-
-  const outlet = useDelayedOutlet(DELAY);
 
   return (
     <>
@@ -65,7 +58,7 @@ export function SubjectsPage() {
         </ul>
       )}
 
-      {outlet}
+      <Outlet />
     </>
   );
 }
