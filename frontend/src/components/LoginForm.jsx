@@ -9,13 +9,14 @@ const defaultValues = {};
 export function LoginForm({ onSubmit, initialValues = defaultValues }) {
   return (
     <>
-      <h1>Log in</h1>
+      <h1 className="login-title">Log in</h1>
 
       <Formik onSubmit={onSubmit} initialValues={initialValues}>
         {({ isSubmitting }) => {
           return (
             <Form>
               <FormField
+                className="full-width"
                 type="text"
                 name="usernameOrEmail"
                 label="Username / e-mail"
@@ -24,7 +25,7 @@ export function LoginForm({ onSubmit, initialValues = defaultValues }) {
 
               <FormField type="password" name="password" label="Password" placeholder="Password" />
 
-              <Button loading={isSubmitting} type="submit">
+              <Button className="signin-button" loading={isSubmitting} type="submit">
                 Sign in
               </Button>
             </Form>
@@ -32,9 +33,10 @@ export function LoginForm({ onSubmit, initialValues = defaultValues }) {
         }}
       </Formik>
 
-      <p>or</p>
+      <p className="divider">or</p>
 
       <Link
+        className="button signup-button button-outline "
         to={{
           search: '?mode=sign-up',
         }}

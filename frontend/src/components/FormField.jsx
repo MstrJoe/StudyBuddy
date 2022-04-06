@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 
-import './FormField.css';
+import './FormField.scss';
 
 export function FormField({
   label,
@@ -8,7 +8,7 @@ export function FormField({
   placeholder = '',
   type = 'text',
   as = undefined,
-  className = undefined,
+  className = '',
   ...props
 }) {
   return (
@@ -17,7 +17,7 @@ export function FormField({
         {label}
       </label>
       <Field
-        className="input"
+        className={`input ${className}`}
         type={type}
         as={as}
         name={name}

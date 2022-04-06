@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { LoginForm } from '../components/LoginForm';
 import { SignUpForm } from '../components/SignUpForm';
+import { LoginTemplate } from '../components/templates/LoginTemplate';
 import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 
@@ -30,12 +31,12 @@ export function LoginPage() {
   }
 
   return (
-    <div>
+    <LoginTemplate>
       {searchParams.get('mode') === 'sign-up' ? (
         <SignUpForm onSubmit={signup} />
       ) : (
         <LoginForm onSubmit={login} />
       )}
-    </div>
+    </LoginTemplate>
   );
 }

@@ -47,7 +47,7 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
                 ))}
               </FormField>
 
-              <Button loading={isSubmitting} type="submit">
+              <Button className="signup-button" loading={isSubmitting} type="submit">
                 Create account
               </Button>
             </Form>
@@ -55,14 +55,14 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
         }}
       </Formik>
 
-      <p>or</p>
+      <p className="divider">or</p>
 
       <Link
         to={{
           search: '?mode=login',
         }}
       >
-        Log in
+        <Button className="login-button">Log in</Button>
       </Link>
     </>
   );

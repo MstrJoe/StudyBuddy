@@ -1,0 +1,38 @@
+.button {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  font-weight: bold;
+  padding: 8px 12px;
+  text-align: center;
+  border-radius: 6px;
+  line-height: 1.5;
+  text-decoration: none;
+  display: inline-block;
+
+  cursor: pointer;
+  &:focus {
+    outline-color: var(--primary-color);
+  }
+
+  &:hover {
+    background-color: var(--primary-color-darker);
+  }
+
+  &-outline {
+    background-color: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    &:hover {
+      background-color: rgba(#da4b26, 0.1);
+    }
+  }
+
+  &-transparent {
+    background-color: rgba(0, 0, 0, 0.3);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+}

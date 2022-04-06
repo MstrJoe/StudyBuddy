@@ -8,7 +8,8 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState();
   const [isLoading, setLoading] = useState(false);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await apiClient.get('/auth/signout');
     setUser(null);
   }, []);
 

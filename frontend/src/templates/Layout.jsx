@@ -1,7 +1,13 @@
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Button } from '../components/Button';
+import { useUser } from '../context/UserContext';
 import './Layout.css';
 
 export function Layout({ navigationItems = [], children }) {
+  const { logout } = useUser();
+
   return (
     <>
       <div className="sidebar">
@@ -17,6 +23,8 @@ export function Layout({ navigationItems = [], children }) {
             );
           })}
         </nav>
+
+        <Button onClick={logout}>Logout</Button>
       </div>
 
       <div className="profile-nav">

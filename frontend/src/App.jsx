@@ -41,7 +41,7 @@ function App() {
   const { user, isLoading } = useUser();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return null;
   }
 
   if (!user) {
@@ -65,8 +65,6 @@ function App() {
         </Route>
 
         <Route path="/profile" element={<ProfilePage />} />
-
-        <Route path="/login" element={<LoginPage />}></Route>
       </Routes>
     </Layout>
   );
