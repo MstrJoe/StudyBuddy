@@ -5,6 +5,10 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 600px) {
+    padding: 10px;
+  }
 }
 
 .login-form {
@@ -15,6 +19,10 @@
   box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.04), 0px 4px 3.25px rgba(0, 0, 0, 0.02);
   border-radius: 16px;
   padding: 40px;
+
+  @media screen and (max-width: 600px) {
+    padding: 20px;
+  }
 }
 
 .login-title {
