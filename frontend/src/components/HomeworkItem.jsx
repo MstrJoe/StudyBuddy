@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+
 import { apiClient } from '../services/api';
 
 export function HomeworkItem({ homework, onSuccess }) {
@@ -12,7 +13,7 @@ export function HomeworkItem({ homework, onSuccess }) {
   }
 
   function editHandler() {
-    navigate(`/homework/edit/${homework.id}`);
+    navigate(`homework/edit/${homework.id}`);
   }
 
   return (

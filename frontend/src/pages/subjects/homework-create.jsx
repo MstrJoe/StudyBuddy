@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import { Drawer } from '../../components/Drawer';
 import { HomeworkForm } from '../../components/HomeworkForm';
 import { apiClient } from '../../services/api';
 
@@ -36,7 +37,7 @@ export function HomeworkCreatePage() {
   }
 
   return (
-    <div>
+    <Drawer onClose={() => navigate('/subjects')}>
       <Link to="/subjects">Back</Link>
       <h2>Add homework to {subject.name}</h2>
       {!isLoading && (
@@ -46,6 +47,6 @@ export function HomeworkCreatePage() {
           // initialValues={subjectId && data}
         />
       )}
-    </div>
+    </Drawer>
   );
 }

@@ -9,14 +9,12 @@ import { UserProvider } from './context/UserContext';
 const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </QueryClientProvider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );

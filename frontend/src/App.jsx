@@ -52,18 +52,18 @@ function App() {
     <Layout navigationItems={user.role.name === 'TEACHER' ? teacherNav : studentNav}>
       <Routes>
         <Route path="/" element={<StudentDashboardPage />} />
-        <Route path="/subjects" element={<SubjectsPage />} />
-        <Route path="/subjects/add" element={<SubjectDetailPage />} />
-        <Route path="/subjects/edit/:id" element={<SubjectDetailPage />} />
-        <Route path="/subjects/:subjectId/create-homework" element={<HomeworkCreatePage />} />
+        <Route path="/subjects" element={<SubjectsPage />}>
+          <Route path="add" element={<SubjectDetailPage />} />
+          <Route path="edit/:id" element={<SubjectDetailPage />} />
+          <Route path=":subjectId/create-homework" element={<HomeworkCreatePage />} />
+          <Route path="homework/edit/:id" element={<HomeworkEditPage />} />
+        </Route>
 
-        <Route path="/agenda" element={<AgendaPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-
+        <Route path="/agenda" element={<AgendaPage />}></Route>
         <Route path="/agenda/add" element={<AgendaItemCreatePage />} />
         <Route path="/agenda/edit/:id" element={<AgendaItemEditPage />} />
 
-        <Route path="/homework/edit/:id" element={<HomeworkEditPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         <Route path="/login" element={<LoginPage />}></Route>
       </Routes>

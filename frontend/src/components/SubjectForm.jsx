@@ -9,7 +9,12 @@ export function SubjectForm({ initialValues = defaultValues, onSubmit, mode }) {
   return (
     <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
       <Form>
-        <FormField name="name" label="Subject name" placeholder="Insert name here"></FormField>
+        <FormField
+          autoFocus
+          name="name"
+          label="Subject name"
+          placeholder="Insert name here"
+        ></FormField>
 
         <Button type="submit">{mode === 'edit' ? 'Edit' : 'Add'} subject</Button>
       </Form>

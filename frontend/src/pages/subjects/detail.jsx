@@ -1,6 +1,8 @@
+import { motion } from 'framer-motion';
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import { Drawer } from '../../components/Drawer';
 import { SubjectForm } from '../../components/SubjectForm';
 import { apiClient } from '../../services/api';
 
@@ -34,9 +36,9 @@ export function SubjectDetailPage() {
   }
 
   return (
-    <div>
+    <Drawer onClose={() => navigate('/subjects')}>
       <Link to="/subjects">Back</Link>
-      <h2>{subjectId ? 'Edit' : 'Add'} form</h2>
+      <h2>{subjectId ? 'Edit' : 'Add'} subject</h2>
       {!isLoading && (
         <SubjectForm
           mode={subjectId ? 'edit' : 'create'}
@@ -44,6 +46,6 @@ export function SubjectDetailPage() {
           initialValues={subjectId && data}
         />
       )}
-    </div>
+    </Drawer>
   );
 }

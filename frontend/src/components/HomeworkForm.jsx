@@ -17,6 +17,7 @@ export function HomeworkForm({ initialValues = defaultValues, onSubmit, mode }) 
     <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
       <Form>
         <FormField
+          autoFocus
           required
           name="name"
           label="Homework name"
