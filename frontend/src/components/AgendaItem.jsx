@@ -1,3 +1,4 @@
+import axios from 'axios';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -5,7 +6,7 @@ import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 import { Button } from './Button';
 
-export function AgendaItem({ item, onDelete }) {
+export function AgendaItem({ item, onDelete, onSubscribe }) {
   const { user } = useUser();
 
   const canSubscribe = user.id !== item.createdBy.id && user.role.name === 'STUDENT';
@@ -19,9 +20,18 @@ export function AgendaItem({ item, onDelete }) {
     try {
       await apiClient.delete(`/agendaitem/${item.id}`);
       onDelete();
-    } catch {
-      alert('Something went wrong');
+    } catch (err) {
+      if (err.response.status === 403) {
+        alert('You are not allowed to delete');
+      } else {
+        alert('Something went wrong');
+      }
     }
+  }
+
+  async function subscribeHandler() {
+    await apiClient.post(`/agendaitem/${item.id}/subscribe`);
+    onSubscribe();
   }
 
   return (
@@ -33,7 +43,7 @@ export function AgendaItem({ item, onDelete }) {
       <p>Hosted by: {item.createdBy.name}</p>
 
       {canSubscribe && (
-        <Button>
+        <Button onClick={subscribeHandler}>
           Subscribe{item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
         </Button>
       )}

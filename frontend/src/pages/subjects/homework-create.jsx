@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Drawer } from '../../components/Drawer';
@@ -9,6 +9,7 @@ import { apiClient } from '../../services/api';
 export function HomeworkCreatePage() {
   const { subjectId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: subject, isLoading } = useQuery(
     ['subject', subjectId],
@@ -26,6 +27,8 @@ export function HomeworkCreatePage() {
       const { deadlineDate, deadlineTime, ...input } = values;
       input.deadline = dayjs(`${deadlineDate} ${deadlineTime}`).toDate();
       await apiClient.post(`/subject/${subjectId}/homework`, input);
+      await queryClient.invalidateQueries('subjects');
+
       navigate('/subjects');
     } catch {
       alert('Something went wrong');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import { AgendaItem } from '../../components/AgendaItem';
 import { Button } from '../../components/Button';
@@ -26,8 +26,15 @@ export function AgendaPage() {
       </Link>
 
       {agendaItems.map(item => (
-        <AgendaItem key={item.id} onDelete={() => refetch()} item={item} />
+        <AgendaItem
+          key={item.id}
+          onDelete={() => refetch()}
+          onSubscribe={() => refetch()}
+          item={item}
+        />
       ))}
+
+      <Outlet />
     </>
   );
 }

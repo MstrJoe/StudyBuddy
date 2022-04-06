@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Drawer } from '../../components/Drawer';
@@ -9,6 +9,7 @@ import { apiClient } from '../../services/api';
 export function HomeworkEditPage() {
   const { id: homeworkId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: homework, isLoading } = useQuery(['homework', homeworkId], async () => {
     const { data } = await apiClient.get(`/homework/${homeworkId}`);

@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Drawer } from '../../components/Drawer';
@@ -9,6 +8,7 @@ import { apiClient } from '../../services/api';
 export function SubjectDetailPage() {
   const { id: subjectId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery(
     'subject',
@@ -25,10 +25,10 @@ export function SubjectDetailPage() {
     try {
       if (subjectId) {
         await apiClient.put(`/subject/${subjectId}`, values);
-        navigate('/subjects');
       } else {
         await apiClient.post('/subject', values);
       }
+      await queryClient.invalidateQueries('subjects');
       navigate('/subjects');
     } catch {
       alert('Something went wrong');

@@ -1,16 +1,19 @@
 package com.studybuddy.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "agenda_item")
 public class AgendaItem {
@@ -29,13 +32,12 @@ public class AgendaItem {
     @JoinColumn(name = "homework_id")
     private Homework homework;
 
-    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User createdBy;
 
-    @ManyToMany(mappedBy = "agendaItemsSubscribed")
-    Set<User> subscribers = new HashSet<User>();
+    @OneToMany(mappedBy = "agendaItem")
+    Set<AgendaItemSubscriber> subscribers;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

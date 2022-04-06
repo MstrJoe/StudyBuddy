@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { AgendaItemForm } from '../../components/AgendaItemForm';
@@ -7,6 +7,7 @@ import { apiClient } from '../../services/api';
 export function AgendaItemEditPage() {
   const { homeworkId } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: homework, isLoading } = useQuery(
     ['homework', homeworkId],
@@ -22,6 +23,8 @@ export function AgendaItemEditPage() {
   async function submitHandler(values, form) {
     try {
       await apiClient.post(`/homework/${homeworkId}/agendaitem`, values);
+      await queryClient.invalidateQueries('agendaitems');
+
       navigate('/agenda');
     } catch {
       alert('Something went wrong');

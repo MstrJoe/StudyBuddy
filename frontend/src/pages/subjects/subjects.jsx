@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
+import { Button } from '../../components/Button';
 import { HomeworkItem } from '../../components/HomeworkItem';
 import { apiClient } from '../../services/api';
 
@@ -21,10 +22,10 @@ function SubjectItem({ subject, onSuccess }) {
   return (
     <li key={subject.id}>
       {subject.name}{' '}
-      <button disabled={subject.homework.length > 0} onClick={() => deleteHandler()}>
+      <Button disabled={subject.homework.length > 0} onClick={() => deleteHandler()}>
         Delete
-      </button>{' '}
-      <button onClick={() => editHandler()}>Edit</button>
+      </Button>{' '}
+      <Button onClick={() => editHandler()}>Edit</Button>
       <h2>Homework</h2>
       <ul>
         {subject.homework.map(homework => (

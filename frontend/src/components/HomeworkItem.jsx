@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 
 import { apiClient } from '../services/api';
+import { Button } from './Button';
 
 export function HomeworkItem({ homework, onSuccess }) {
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ export function HomeworkItem({ homework, onSuccess }) {
 
   return (
     <li>
-      {homework.name} <button onClick={() => deleteHandler()}>Delete</button>{' '}
-      <button onClick={() => editHandler()}>Edit</button>
+      {homework.name} <Button onClick={() => deleteHandler()}>Delete</Button>{' '}
+      <Button onClick={() => editHandler()}>Edit</Button>
     </li>
   );
 }

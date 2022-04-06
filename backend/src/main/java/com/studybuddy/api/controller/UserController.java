@@ -29,7 +29,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PutMapping("/me")
-    public UserResponseDto updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
+    public ResponseEntity<UserResponseDto> updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
 
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
 
@@ -51,12 +51,13 @@ public class UserController {
 
         this.userRepository.save(user);
 
-        return new UserResponseDto(user);
+        return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.OK);
     }
 
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> currentUser(Principal principal) {
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
-        return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.OK);
+        UserResponseDto response = new UserResponseDto(user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

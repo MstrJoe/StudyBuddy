@@ -1,12 +1,14 @@
 package com.studybuddy.api.controller;
 
 import com.studybuddy.api.entity.AgendaItem;
+import com.studybuddy.api.entity.AgendaItemSubscriber;
 import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.entity.User;
 import com.studybuddy.api.payload.input.AgendaItemCreateDto;
 import com.studybuddy.api.payload.input.AgendaItemUpdateDto;
 import com.studybuddy.api.payload.responses.AgendaItemResponseDto;
 import com.studybuddy.api.repository.AgendaItemRepository;
+import com.studybuddy.api.repository.AgendaItemSubscriberRepository;
 import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.UserRepository;
 
@@ -19,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,6 +29,9 @@ public class AgendaItemController {
 
     @Autowired
     private AgendaItemRepository agendaItemRepository;
+
+    @Autowired
+    private AgendaItemSubscriberRepository agendaItemSubscriberRepository;
 
     @Autowired
     private HomeworkRepository homeworkRepository;
@@ -99,14 +103,21 @@ public class AgendaItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteAgendaItem(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAgendaItem(Principal principal, @PathVariable Long id) {
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
 
         if (currentAgendaItem.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agenda-item not found");
         }
 
+        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+
         AgendaItem agendaItem = currentAgendaItem.get();
+
+        if (user.getId() != agendaItem.getCreatedBy().getId()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         this.agendaItemRepository.delete(agendaItem);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -123,16 +134,12 @@ public class AgendaItemController {
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
         AgendaItem agendaItem = currentAgendaItem.get();
 
-        Set<User> subscribers = agendaItem.getSubscribers();
+        AgendaItemSubscriber agendaItemSubscriber = new AgendaItemSubscriber();
 
-        if (subscribers.contains(user)) {
-            subscribers.remove(user);
-        } else {
-            subscribers.add(user);
-        }
+        agendaItemSubscriber.setAgendaItem(agendaItem);
+        agendaItemSubscriber.setSubscriber(user);
 
-        agendaItem.setSubscribers(subscribers);
-        this.agendaItemRepository.save(agendaItem);
+        this.agendaItemSubscriberRepository.save(agendaItemSubscriber);
 
         return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
     }

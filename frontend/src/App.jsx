@@ -59,9 +59,10 @@ function App() {
           <Route path="homework/edit/:id" element={<HomeworkEditPage />} />
         </Route>
 
-        <Route path="/agenda" element={<AgendaPage />}></Route>
-        <Route path="/agenda/add" element={<AgendaItemCreatePage />} />
-        <Route path="/agenda/edit/:id" element={<AgendaItemEditPage />} />
+        <Route path="/agenda" element={<AgendaPage />}>
+          <Route path="add" element={<AgendaItemCreatePage />} />
+          <Route path="edit/:id" element={<AgendaItemEditPage />} />
+        </Route>
 
         <Route path="/profile" element={<ProfilePage />} />
 

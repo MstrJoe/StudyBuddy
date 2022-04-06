@@ -40,7 +40,10 @@
   top: 0;
   bottom: 0;
   width: 500px;
-  background-color: #fff;
+  background-color: #eee;
   animation-name: fadeInRight;
   animation-duration: 0.3s;
+  overflow: auto;
+  max-width: 100%;
+  padding: 20px;
 }

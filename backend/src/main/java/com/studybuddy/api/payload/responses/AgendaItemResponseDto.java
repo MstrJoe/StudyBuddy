@@ -2,7 +2,6 @@ package com.studybuddy.api.payload.responses;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
 import com.studybuddy.api.entity.AgendaItem;
 
 @Data
-public class AgendaItemResponseDto implements Serializable {
+public class AgendaItemResponseDto {
     private long id;
     private String title;
     private Date moment;
@@ -18,7 +17,7 @@ public class AgendaItemResponseDto implements Serializable {
     private String link;
     private HomeworkWithSubjectResponseDto homework;
     private UserResponseDto createdBy;
-    private Set<UserResponseDto> subscribers;
+    private Set<SubscriberResponseDto> subscribers;
     private Date createdAt;
     private Date updatedAt;
 
@@ -31,6 +30,9 @@ public class AgendaItemResponseDto implements Serializable {
         this.setHomework(new HomeworkWithSubjectResponseDto(entity.getHomework()));
         this.setCreatedBy(new UserResponseDto(entity.getCreatedBy()));
         this.setSubscribers(
-                entity.getSubscribers().stream().map(item -> new UserResponseDto(item)).collect(Collectors.toSet()));
+                entity.getSubscribers().stream().map(item -> new SubscriberResponseDto(item))
+                        .collect(Collectors.toSet()));
+        this.setCreatedAt(entity.getCreatedAt());
+        this.setUpdatedAt(entity.getUpdatedAt());
     }
 }

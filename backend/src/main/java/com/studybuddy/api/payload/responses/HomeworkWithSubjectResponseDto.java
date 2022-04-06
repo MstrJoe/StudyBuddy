@@ -1,18 +1,13 @@
 package com.studybuddy.api.payload.responses;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import com.studybuddy.api.entity.Homework;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class HomeworkWithSubjectResponseDto implements Serializable {
+public class HomeworkWithSubjectResponseDto {
     private long id;
     private String name;
     private Date deadline;
