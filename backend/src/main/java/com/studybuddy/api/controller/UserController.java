@@ -3,11 +3,13 @@ package com.studybuddy.api.controller;
 import java.security.Principal;
 
 import com.studybuddy.api.entity.User;
-import com.studybuddy.api.payload.UserMeResponseDto;
-import com.studybuddy.api.payload.UserUpdateDto;
+import com.studybuddy.api.payload.responses.UserResponseDto;
+import com.studybuddy.api.payload.input.UserUpdateDto;
 import com.studybuddy.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PutMapping("/me")
-    public UserMeResponseDto updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
+    public UserResponseDto updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
 
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
 
@@ -49,12 +51,12 @@ public class UserController {
 
         this.userRepository.save(user);
 
-        return new UserMeResponseDto(user);
+        return new UserResponseDto(user);
     }
 
     @GetMapping("/me")
-    public UserMeResponseDto currentUser(Principal principal) {
+    public ResponseEntity<UserResponseDto> currentUser(Principal principal) {
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
-        return new UserMeResponseDto(user);
+        return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.OK);
     }
 }

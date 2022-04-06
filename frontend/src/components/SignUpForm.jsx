@@ -6,7 +6,13 @@ import { apiClient } from '../services/api';
 import { Button } from './Button';
 import { FormField } from './FormField';
 
-const defaultValues = {};
+const defaultValues = {
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+  roleId: '',
+};
 
 export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
   const { data: roles } = useQuery('roles', async () => {
@@ -31,7 +37,7 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
               <FormField type="password" name="password" label="Password" placeholder="Password" />
 
               <FormField as="select" name="roleId" label="Role">
-                <option disabled selected>
+                <option value="" disabled selected>
                   Pick one
                 </option>
                 {roles?.map(role => (

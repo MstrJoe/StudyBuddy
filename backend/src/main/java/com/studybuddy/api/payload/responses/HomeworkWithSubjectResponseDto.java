@@ -1,25 +1,34 @@
-package com.studybuddy.api.payload;
+package com.studybuddy.api.payload.responses;
 
-import com.studybuddy.api.entity.Homework;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.Date;
 
+import com.studybuddy.api.entity.Homework;
+
 @Data
-public class SubjectHomeworkResponseDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class HomeworkWithSubjectResponseDto implements Serializable {
     private long id;
     private String name;
     private Date deadline;
     private String description;
     private String link;
+    private HomeworkSubjectResponseDto subject;
     private Date createdAt;
     private Date updatedAt;
 
-    public SubjectHomeworkResponseDto(Homework homework) {
+    public HomeworkWithSubjectResponseDto(Homework homework) {
         this.setId(homework.getId());
         this.setName(homework.getName());
         this.setDeadline(homework.getDeadline());
         this.setDescription(homework.getDescription());
         this.setLink(homework.getLink());
+        this.setSubject(new HomeworkSubjectResponseDto(homework.getSubject()));
         this.setCreatedAt(homework.getCreatedAt());
         this.setUpdatedAt(homework.getUpdatedAt());
     }

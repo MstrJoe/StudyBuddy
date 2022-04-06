@@ -1,6 +1,5 @@
 package com.studybuddy.api.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,8 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
-
 
 @Data
 @Entity
@@ -36,7 +35,7 @@ public class AgendaItem {
     private User createdBy;
 
     @ManyToMany(mappedBy = "agendaItemsSubscribed")
-    Set<User> subscribers;
+    Set<User> subscribers = new HashSet<User>();
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -47,6 +46,5 @@ public class AgendaItem {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private Date updatedAt;
-
 
 }

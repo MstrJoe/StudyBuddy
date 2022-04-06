@@ -1,11 +1,11 @@
-package com.studybuddy.api.payload;
+package com.studybuddy.api.payload.input;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class AgendaItemDto {
+public class AgendaItemUpdateDto {
     private String title;
     private Date moment;
     private String description;

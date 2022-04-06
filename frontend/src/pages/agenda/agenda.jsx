@@ -1,8 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
-import { AgendaItem } from '../components/AgendaItem';
-import { apiClient } from '../services/api';
+import { AgendaItem } from '../../components/AgendaItem';
+import { Button } from '../../components/Button';
+import { apiClient } from '../../services/api';
 
 export function AgendaPage() {
   const {
@@ -18,8 +20,13 @@ export function AgendaPage() {
   return (
     <>
       <h1>Agenda</h1>
+
+      <Link to="add">
+        <Button>Add new</Button>
+      </Link>
+
       {agendaItems.map(item => (
-        <AgendaItem key={item.id} item={item} />
+        <AgendaItem key={item.id} onDelete={() => refetch()} item={item} />
       ))}
     </>
   );

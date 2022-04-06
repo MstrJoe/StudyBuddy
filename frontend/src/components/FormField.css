@@ -1,0 +1,18 @@
+.label {
+  display: block;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input {
+  padding: 8px 12px;
+  color: #000;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.input-wrapper + .input-wrapper {
+  margin-top: 10px;
+}

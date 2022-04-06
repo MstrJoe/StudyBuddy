@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 
-import styles from './FormField.module.css';
+import './FormField.css';
 
 export function FormField({
   label,
@@ -12,12 +12,12 @@ export function FormField({
   ...props
 }) {
   return (
-    <div className={styles.wrapper}>
-      <label htmlFor={name} className={styles.label}>
+    <div className="input-wrapper">
+      <label htmlFor={name} className="label">
         {label}
       </label>
       <Field
-        className={styles.input}
+        className="input"
         type={type}
         as={as}
         name={name}

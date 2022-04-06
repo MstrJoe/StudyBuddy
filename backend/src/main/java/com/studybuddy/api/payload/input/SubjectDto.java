@@ -1,7 +1,6 @@
-package com.studybuddy.api.payload;
+package com.studybuddy.api.payload.input;
 
 import lombok.Data;
-
 
 @Data
 public class SubjectDto {

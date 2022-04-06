@@ -1,4 +1,4 @@
-package com.studybuddy.api.payload;
+package com.studybuddy.api.payload.responses;
 
 import com.studybuddy.api.entity.Role;
 

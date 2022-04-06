@@ -1,14 +1,18 @@
-package com.studybuddy.api.payload;
+package com.studybuddy.api.payload.responses;
 
-import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.entity.Subject;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SubjectResponseDto {
     private long id;
     private String name;
@@ -22,11 +26,8 @@ public class SubjectResponseDto {
         this.setCreatedAt(subject.getCreatedAt());
         this.setUpdatedAt(subject.getUpdatedAt());
 
-        List<SubjectHomeworkResponseDto> homeworkList = new ArrayList<>();
-
-        for (Homework homework : subject.getHomework()) {
-            homeworkList.add(new SubjectHomeworkResponseDto(homework));
-        }
+        List<SubjectHomeworkResponseDto> homeworkList = subject.getHomework().stream()
+                .map(item -> new SubjectHomeworkResponseDto(item)).collect(Collectors.toList());
 
         this.setHomework(homeworkList);
     }

@@ -4,9 +4,9 @@ import React, { useContext, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 
 import { useUser } from './context/UserContext';
-import { AgendaPage } from './pages/agenda';
-import { AgendaItemCreatePage } from './pages/homework/agenda-create';
-import { AgendaItemEditPage } from './pages/homework/agenda-edit';
+import { AgendaPage } from './pages/agenda/agenda';
+import { AgendaItemCreatePage } from './pages/agenda/agenda-create';
+import { AgendaItemEditPage } from './pages/agenda/agenda-edit';
 import { LoginPage } from './pages/login';
 import { ProfilePage } from './pages/profile';
 import { StudentDashboardPage } from './pages/student-dashboard';
@@ -43,6 +43,7 @@ function App() {
   if (isLoading) {
     return <div>Loading</div>;
   }
+
   if (!user) {
     return <LoginPage />;
   }
@@ -59,10 +60,10 @@ function App() {
         <Route path="/agenda" element={<AgendaPage />} />
         <Route path="/profile" element={<ProfilePage />} />
 
+        <Route path="/agenda/add" element={<AgendaItemCreatePage />} />
         <Route path="/agenda/edit/:id" element={<AgendaItemEditPage />} />
 
         <Route path="/homework/edit/:id" element={<HomeworkEditPage />} />
-        <Route path="/homework/:homeworkId/add-agenda" element={<AgendaItemCreatePage />} />
 
         <Route path="/login" element={<LoginPage />}></Route>
       </Routes>

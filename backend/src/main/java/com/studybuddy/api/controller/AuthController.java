@@ -2,8 +2,9 @@ package com.studybuddy.api.controller;
 
 import com.studybuddy.api.entity.Role;
 import com.studybuddy.api.entity.User;
-import com.studybuddy.api.payload.LoginDto;
-import com.studybuddy.api.payload.SignUpDto;
+import com.studybuddy.api.payload.input.LoginDto;
+import com.studybuddy.api.payload.input.SignUpDto;
+import com.studybuddy.api.payload.responses.UserResponseDto;
 import com.studybuddy.api.repository.RoleRepository;
 import com.studybuddy.api.repository.UserRepository;
 
@@ -75,7 +76,7 @@ public class AuthController {
         // sign user in after account has been created
         this.signUserIn(user.getEmail(), signUpDto.getPassword());
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<UserResponseDto>(new UserResponseDto(user), HttpStatus.OK);
     }
 
     private void signUserIn(String usernameOrEmail, String password) {

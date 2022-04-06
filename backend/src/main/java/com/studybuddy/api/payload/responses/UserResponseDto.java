@@ -1,13 +1,13 @@
-package com.studybuddy.api.payload;
-
-import lombok.Data;
+package com.studybuddy.api.payload.responses;
 
 import java.util.Date;
 
 import com.studybuddy.api.entity.User;
 
+import lombok.Data;
+
 @Data
-public class UserMeResponseDto {
+public class UserResponseDto {
     private long id;
     private String name;
     private String username;
@@ -16,7 +16,7 @@ public class UserMeResponseDto {
     private Date createdAt;
     private Date updatedAt;
 
-    public UserMeResponseDto(User user) {
+    public UserResponseDto(User user) {
         this.setId(user.getId());
         this.setName(user.getName());
         this.setUsername(user.getUsername());

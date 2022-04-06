@@ -9,37 +9,38 @@ export function AgendaItemCreatePage() {
   const { homeworkId } = useParams();
   const navigate = useNavigate();
 
-  const { data: homework, isLoading } = useQuery(
-    ['homework', homeworkId],
-    async () => {
-      const { data } = await apiClient.get(`/homework/${homeworkId}`);
-      return data;
-    },
-    {
-      enabled: Boolean(homeworkId),
-    },
-  );
+  const {
+    data: subjects,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery('subjects', async () => {
+    const { data } = await apiClient.get('/subject');
+    return data;
+  });
 
   async function submitHandler(values, form) {
     try {
       const { startDate, startTime, ...input } = values;
       input.moment = dayjs(`${startDate} ${startTime}`);
-      await apiClient.post(`/homework/${homeworkId}/agendaitem`, input);
+      await apiClient.post(`/agendaitem`, input);
       navigate('/agenda');
     } catch {
       alert('Something went wrong');
     }
   }
 
-  if (!homework) {
+  if (!subjects) {
     return <></>;
   }
 
   return (
     <div>
       <Link to="/subjects">Back</Link>
-      <h2>Add agenda item to {homework.name}</h2>
-      {!isLoading && <AgendaItemForm mode={'create'} onSubmit={submitHandler} />}
+      <h2>Add agenda item</h2>
+      {!isLoading && (
+        <AgendaItemForm subjects={subjects} mode={'create'} onSubmit={submitHandler} />
+      )}
     </div>
   );
 }
