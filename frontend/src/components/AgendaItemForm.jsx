@@ -4,37 +4,39 @@ import { Form, Formik } from 'formik';
 import { Button } from './Button';
 import { FormField } from './FormField';
 
-const defaultValues = {
-  title: '',
-  subjectId: '',
-  homeworkId: '',
-  description: '',
-  link: '',
-  startDate: dayjs(new Date()).format('YYYY-MM-DD'),
-  startTime: dayjs(new Date()).format('HH:mm'),
-};
+export function AgendaItemForm({ initialValues, onSubmit, mode, subjects }) {
+  const defaultValues = {
+    title: '',
+    subjectId: '',
+    homeworkId: '',
+    description: '',
+    link: '',
+    startDate: dayjs(new Date()).format('YYYY-MM-DD'),
+    startTime: dayjs(new Date()).format('HH:mm'),
+  };
 
-export function AgendaItemForm({ initialValues = defaultValues, onSubmit, mode, subjects }) {
   return (
-    <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik enableReinitialize initialValues={initialValues || defaultValues} onSubmit={onSubmit}>
       {({ values }) => (
         <Form>
-          <FormField
-            name="subjectId"
-            placeholder="Choose subject"
-            label="Subject"
-            as="select"
-            disabled={mode === 'edit'}
-          >
-            <option value="" disabled hidden>
-              Choose subject
-            </option>
-            {subjects.map(subject => (
-              <option key={subject.id} value={subject.id}>
-                {subject.name}
+          {mode === 'create' && (
+            <FormField
+              name="subjectId"
+              placeholder="Choose subject"
+              label="Subject"
+              as="select"
+              disabled={mode === 'edit'}
+            >
+              <option value="" disabled hidden>
+                Choose subject
               </option>
-            ))}
-          </FormField>
+              {subjects.map(subject => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.name}
+                </option>
+              ))}
+            </FormField>
+          )}
 
           {values.subjectId && (
             <FormField name="homeworkId" label="Homework" as="select" disabled={mode === 'edit'}>

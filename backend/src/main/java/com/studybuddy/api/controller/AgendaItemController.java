@@ -13,11 +13,14 @@ import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +45,7 @@ public class AgendaItemController {
     @GetMapping()
     public ResponseEntity<List<AgendaItemResponseDto>> getAgendaItemCollection() {
 
-        List<AgendaItemResponseDto> collection = this.agendaItemRepository.findAll().stream()
+        List<AgendaItemResponseDto> collection = this.agendaItemRepository.findByOrderByMomentAsc().stream()
                 .map(item -> new AgendaItemResponseDto(item))
                 .collect(Collectors.toList());
 
@@ -60,12 +63,17 @@ public class AgendaItemController {
     }
 
     @PostMapping()
-    public ResponseEntity<AgendaItemResponseDto> createAgendaItem(Principal principal,
-            @RequestBody AgendaItemCreateDto agendaItemDto) {
+    public ResponseEntity<?> createAgendaItem(Principal principal,
+                                              @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId());
 
         if (currentHomework.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");
+            return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
         }
 
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
@@ -84,8 +92,12 @@ public class AgendaItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AgendaItemResponseDto> createHomework(@PathVariable Long id,
-            @RequestBody AgendaItemUpdateDto data) {
+    public ResponseEntity<?> createHomework(@PathVariable Long id,
+                                            @RequestBody @Valid AgendaItemUpdateDto data, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
 
         if (currentAgendaItem.isEmpty()) {

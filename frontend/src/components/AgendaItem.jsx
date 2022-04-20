@@ -6,12 +6,14 @@ import React from 'react';
 import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 import { Button } from './Button';
+import { useNavigate } from 'react-router-dom';
 
 export function AgendaItem({ item, onDelete, onSubscribe }) {
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const canSubscribe = user.id !== item.createdBy.id && user.role.name === 'STUDENT';
-  const canDelete = user.id === item.createdBy.id;
+  const isCreator = user.id === item.createdBy.id;
 
   async function deleteHandler() {
     if (!confirm('Are you sure you want to delete this homework?')) {
@@ -61,7 +63,8 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
           Subscribe{item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
         </Button>
       )}
-      {canDelete && <Button onClick={deleteHandler}>Delete</Button>}
+      {isCreator && <Button onClick={deleteHandler}>Delete</Button>}
+      {isCreator && <Button onClick={() => navigate(`edit/${item.id}`)}>Edit</Button>}
     </div>
   );
 }

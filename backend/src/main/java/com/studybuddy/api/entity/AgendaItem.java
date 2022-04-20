@@ -37,7 +37,7 @@ public class AgendaItem {
     private User createdBy;
 
     @OneToMany(mappedBy = "agendaItem")
-    Set<AgendaItemSubscriber> subscribers;
+    Set<AgendaItemSubscriber> subscribers =new HashSet<>();
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

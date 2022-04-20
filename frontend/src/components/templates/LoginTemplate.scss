@@ -1,6 +1,6 @@
 .login-template {
   padding: 50px;
-  background-color: rgb(55, 137, 231);
+  background-color: rgb(72, 61, 139);
   display: flex;
   min-height: 100vh;
   align-items: center;
@@ -35,6 +35,7 @@
   display: flex;
   width: 100%;
   line-height: 1;
+
   &:after,
   &:before {
     content: '';
@@ -42,19 +43,31 @@
     flex: 1 1;
     margin: auto;
   }
+
   &:after {
     margin-left: 10px;
   }
+
   &:before {
     margin-right: 10px;
   }
 }
 
 .signin-button {
-  margin-top: 20px;
+  margin-top: 25px;
   width: 100%;
 }
 
 .signup-button {
   width: 100%;
+}
+
+.login-button {
+  margin-top: 100px;
+  width: 100%;
+}
+
+.create-account-button {
+  width: 100%;
+  margin-top: 25px;
 }

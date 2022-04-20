@@ -26,7 +26,7 @@ export function LoginForm({ onSubmit, initialValues = defaultValues }) {
               <FormField type="password" name="password" label="Password" placeholder="Password" />
 
               <Button className="signin-button" loading={isSubmitting} type="submit">
-                Sign in
+                Log in
               </Button>
             </Form>
           );
