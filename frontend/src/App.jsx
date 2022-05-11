@@ -14,7 +14,7 @@ import { SubjectDetailPage } from './pages/subjects/detail';
 import { HomeworkCreatePage } from './pages/subjects/homework-create';
 import { HomeworkEditPage } from './pages/subjects/homework-edit';
 import { SubjectsPage } from './pages/subjects/subjects';
-import { Layout } from './templates/Layout';
+import { Layout } from './components/templates/Layout';
 
 const teacherNav = [
   {

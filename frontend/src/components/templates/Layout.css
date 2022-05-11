@@ -1,0 +1,28 @@
+.header {
+  position: fixed;
+  top: 0;
+  height: 60px;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+
+  .actions {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+  }
+}
+
+main {
+  padding: 40px;
+  padding-top: 60px;
+  background-color: #eee;
+}
+
+.profile-link {
+  color: #fff;
+}

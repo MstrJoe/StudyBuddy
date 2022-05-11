@@ -47,7 +47,7 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
                 ))}
               </FormField>
 
-              <Button className="signup-button" loading={isSubmitting} type="submit">
+              <Button className="create-account-button" loading={isSubmitting} type="submit">
                 Create account
               </Button>
             </Form>
@@ -62,7 +62,9 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
           search: '?mode=login',
         }}
       >
-        <Button className="login-button">Log in</Button>
+        <Button className="button signup-button button-outline" type="submit">
+          Log in
+        </Button>
       </Link>
     </>
   );

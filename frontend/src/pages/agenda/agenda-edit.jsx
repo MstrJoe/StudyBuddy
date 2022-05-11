@@ -3,26 +3,31 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { AgendaItemForm } from '../../components/AgendaItemForm';
 import { apiClient } from '../../services/api';
+import { Drawer } from '../../components/Drawer';
+import dayjs from 'dayjs';
 
 export function AgendaItemEditPage() {
-  const { homeworkId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  console.log('bullshit');
 
-  const { data: homework, isLoading } = useQuery(
-    ['homework', homeworkId],
+  const { data: agendaitem, isLoading } = useQuery(
+    ['agendaitem', id],
     async () => {
-      const { data } = await apiClient.get(`/homework/${homeworkId}`);
+      const { data } = await apiClient.get(`/agendaitem/${id}`);
       return data;
     },
     {
-      enabled: Boolean(homeworkId),
+      enabled: Boolean(id),
     },
   );
 
   async function submitHandler(values, form) {
     try {
-      await apiClient.post(`/homework/${homeworkId}/agendaitem`, values);
+      const { startDate, startTime, ...input } = values;
+      input.moment = dayjs(`${startDate} ${startTime}`);
+      await apiClient.put(`/agendaitem/${agendaitem.id}`, input);
       await queryClient.invalidateQueries('agendaitems');
 
       navigate('/agenda');
@@ -31,15 +36,25 @@ export function AgendaItemEditPage() {
     }
   }
 
-  if (!homework) {
+  if (!agendaitem) {
     return <></>;
   }
 
   return (
-    <div>
+    <Drawer onClose={() => navigate('/agenda')}>
       <Link to="/subjects">Back</Link>
-      <h2>Add agenda item to {homework.name}</h2>
-      {!isLoading && <AgendaItemForm mode={'create'} onSubmit={submitHandler} />}
-    </div>
+      <h2>Edit agenda item to {agendaitem.title}</h2>
+      {!isLoading && (
+        <AgendaItemForm
+          mode={'edit'}
+          initialValues={{
+            ...agendaitem,
+            startDate: dayjs(agendaitem.moment).format('YYYY-MM-DD'),
+            startTime: dayjs(agendaitem.moment).format('HH:mm'),
+          }}
+          onSubmit={submitHandler}
+        />
+      )}
+    </Drawer>
   );
 }

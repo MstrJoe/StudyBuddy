@@ -1,9 +1,9 @@
-import axios from 'axios';
+import './Layout.css';
+
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Button } from '../components/Button';
-import { useUser } from '../context/UserContext';
-import './Layout.scss';
+import { useUser } from '../../context/UserContext';
+import { Button } from '../Button';
 
 export function Layout({ navigationItems = [], children }) {
   const { logout } = useUser();
