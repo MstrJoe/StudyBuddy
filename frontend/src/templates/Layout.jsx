@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '../components/Button';
 import { useUser } from '../context/UserContext';
-import './Layout.css';
+import './Layout.scss';
 
 export function Layout({ navigationItems = [], children }) {
   const { logout } = useUser();
@@ -27,7 +27,9 @@ export function Layout({ navigationItems = [], children }) {
         </div>
 
         <div className="actions">
-          <Button onClick={logout}>Logout</Button>
+          <Button className="button-transparent" onClick={logout}>
+            Logout
+          </Button>
 
           <Link className="profile-link" to="/profile">
             Profile

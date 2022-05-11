@@ -9,21 +9,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 15px;
+
+  .actions {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+  }
 }
 
 main {
   padding: 40px;
   padding-top: 60px;
   background-color: #eee;
-}
-
-.profile-nav {
-  position: fixed;
-  top: 0;
-  right: 0;
-  background: blue;
-  padding: 10px;
-  color: #fff;
 }
 
 .profile-link {
