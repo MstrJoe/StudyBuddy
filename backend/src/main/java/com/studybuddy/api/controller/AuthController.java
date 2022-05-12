@@ -16,11 +16,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -46,7 +49,11 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginDto loginDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
 
         this.signUserIn(loginDto.getUsernameOrEmail(), loginDto.getPassword());
 

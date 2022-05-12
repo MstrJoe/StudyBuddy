@@ -5,6 +5,7 @@ import { BackButton } from '../../components/BackButton';
 import { Drawer } from '../../components/Drawer';
 import { SubjectForm } from '../../components/SubjectForm';
 import { apiClient } from '../../services/api';
+import { handleError } from '../../utils/error';
 
 export function SubjectDetailPage() {
   const { id: subjectId } = useParams();
@@ -31,8 +32,8 @@ export function SubjectDetailPage() {
       }
       await queryClient.invalidateQueries('subjects');
       navigate('/subjects');
-    } catch {
-      alert('Something went wrong');
+    } catch (err) {
+      handleError(err);
     }
   }
 
