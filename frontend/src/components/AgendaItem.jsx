@@ -1,12 +1,11 @@
 import './AgendaItem.scss';
 
 import dayjs from 'dayjs';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 import { Button } from './Button';
-import { useNavigate } from 'react-router-dom';
 
 export function AgendaItem({ item, onDelete, onSubscribe }) {
   const { user } = useUser();

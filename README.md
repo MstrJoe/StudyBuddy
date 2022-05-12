@@ -10,7 +10,7 @@ Create a database called studybuddy
 
 If neccesarry change the credentials in `/backend/src/main/resources/application.properties`
 
-### To start
+### To start open the project in IntelliJ and run or from your command line:
 
 ```bash
 mvn spring-boot:run

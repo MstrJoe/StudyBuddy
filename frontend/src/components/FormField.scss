@@ -14,8 +14,9 @@
   width: 100%;
   line-height: 1.5;
   font-size: 16px;
+  margin-bottom: 5px;
   &:focus {
-    outline-color: #6352c5;
+    outline-color: var(--primary-color);
   }
 }
 

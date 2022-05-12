@@ -1,10 +1,11 @@
+import dayjs from 'dayjs';
 import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { AgendaItemForm } from '../../components/AgendaItemForm';
-import { apiClient } from '../../services/api';
+import { BackButton } from '../../components/BackButton';
 import { Drawer } from '../../components/Drawer';
-import dayjs from 'dayjs';
+import { apiClient } from '../../services/api';
 
 export function AgendaItemEditPage() {
   const { id } = useParams();
@@ -42,7 +43,8 @@ export function AgendaItemEditPage() {
 
   return (
     <Drawer onClose={() => navigate('/agenda')}>
-      <Link to="/subjects">Back</Link>
+      <BackButton to="/subjects" />
+
       <h2>Edit agenda item to {agendaitem.title}</h2>
       {!isLoading && (
         <AgendaItemForm

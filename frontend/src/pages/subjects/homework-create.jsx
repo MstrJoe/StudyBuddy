@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import { BackButton } from '../../components/BackButton';
 import { Drawer } from '../../components/Drawer';
 import { HomeworkForm } from '../../components/HomeworkForm';
 import { apiClient } from '../../services/api';
@@ -41,7 +42,8 @@ export function HomeworkCreatePage() {
 
   return (
     <Drawer onClose={() => navigate('/subjects')}>
-      <Link to="/subjects">Back</Link>
+      <BackButton to="/subjects" />
+
       <h2>Add homework to {subject.name}</h2>
       {!isLoading && (
         <HomeworkForm

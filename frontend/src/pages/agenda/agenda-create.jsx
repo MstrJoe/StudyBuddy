@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { AgendaItemForm } from '../../components/AgendaItemForm';
+import { BackButton } from '../../components/BackButton';
 import { Drawer } from '../../components/Drawer';
 import { apiClient } from '../../services/api';
 
@@ -38,7 +39,7 @@ export function AgendaItemCreatePage() {
 
   return (
     <Drawer onClose={() => navigate('/agenda')}>
-      <Link to="/agenda">Back</Link>
+      <BackButton to="/agenda" />
       <h2>Add agenda item</h2>
       {!isLoading && (
         <AgendaItemForm subjects={subjects} mode={'create'} onSubmit={submitHandler} />

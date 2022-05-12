@@ -9,7 +9,9 @@
   border-radius: 6px;
   line-height: 1.5;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
 
   cursor: pointer;
   &:focus {

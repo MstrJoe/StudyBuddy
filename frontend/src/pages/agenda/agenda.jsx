@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsPlus } from 'react-icons/bs';
 import { useQuery } from 'react-query';
 import { Link, Outlet } from 'react-router-dom';
 
@@ -19,11 +20,15 @@ export function AgendaPage() {
 
   return (
     <>
-      <h1>Agenda</h1>
-
-      <Link to="add">
-        <Button>Add new</Button>
-      </Link>
+      <div className="page-header">
+        <h1>Agenda</h1>
+        <div className="actions">
+          <Link className="button" to="add">
+            <BsPlus />
+            Add new
+          </Link>
+        </div>
+      </div>
 
       {agendaItems.map(item => (
         <AgendaItem

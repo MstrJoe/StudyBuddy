@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import { BackButton } from '../../components/BackButton';
 import { Drawer } from '../../components/Drawer';
 import { SubjectForm } from '../../components/SubjectForm';
 import { apiClient } from '../../services/api';
@@ -37,7 +38,8 @@ export function SubjectDetailPage() {
 
   return (
     <Drawer onClose={() => navigate('/subjects')}>
-      <Link to="/subjects">Back</Link>
+      <BackButton to="/subjects" />
+
       <h2>{subjectId ? 'Edit' : 'Add'} subject</h2>
       {!isLoading && (
         <SubjectForm

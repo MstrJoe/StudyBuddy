@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { apiClient } from '../services/api';
@@ -18,9 +19,16 @@ export function HomeworkItem({ homework, onSuccess }) {
   }
 
   return (
-    <li>
-      {homework.name} <Button onClick={() => deleteHandler()}>Delete</Button>{' '}
-      <Button onClick={() => editHandler()}>Edit</Button>
+    <li className="homework-item">
+      <div className="info">
+        <h5>{homework.name}</h5>
+        <p>Deadline {dayjs(homework.deadline).format('DD/MM/YYYY')}</p>
+      </div>
+
+      <div className="actions">
+        <Button onClick={() => deleteHandler()}>Delete</Button>{' '}
+        <Button onClick={() => editHandler()}>Edit</Button>
+      </div>
     </li>
   );
 }

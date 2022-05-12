@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { BiArrowBack } from 'react-icons/bi';
 import { useQuery, useQueryClient } from 'react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -33,7 +34,10 @@ export function HomeworkEditPage() {
 
   return (
     <Drawer onClose={() => navigate('/subjects')}>
-      <Link to="/subjects">Back</Link>
+      <Link to="/subjects">
+        <BiArrowBack />
+        Back
+      </Link>
       <h2>Edit homework "{homework.name}"</h2>
       {!isLoading && (
         <HomeworkForm

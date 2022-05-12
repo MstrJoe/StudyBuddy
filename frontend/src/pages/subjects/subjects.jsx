@@ -1,3 +1,4 @@
+import { BsPlus } from 'react-icons/bs';
 import { useQuery } from 'react-query';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
@@ -12,10 +13,19 @@ export function SubjectsPage() {
 
   return (
     <>
-      <h1>Subjects</h1>
+      <div className="page-header">
+        <h1>Subjects</h1>
+        <div className="actions">
+          <Link className="button" to="add">
+            <BsPlus />
+            Add subject
+          </Link>
+        </div>
+      </div>
+
       {isLoading && <div>Loader</div>}
       {error && <p>There was an error</p>}
-      <Link to="add">Add subject</Link>
+
       {data && (
         <ul className="subject-list">
           {data.map(subject => (

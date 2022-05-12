@@ -1,0 +1,60 @@
+.header {
+  position: fixed;
+  top: 0;
+  height: 60px;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+
+  .actions {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+  }
+}
+
+.logo {
+  margin-right: 50px;
+  padding: 5px;
+  height: 100%;
+}
+
+.navigation-wrapper {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-item {
+  color: white;
+  opacity: 0.7;
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    opacity: 1
+  }
+  &.active {
+    opacity: 1;
+  }
+}
+
+main {
+  padding: 40px;
+  padding-top: 60px;
+}
+
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
