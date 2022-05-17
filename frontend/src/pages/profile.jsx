@@ -4,17 +4,17 @@ import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 
 export function ProfilePage() {
-  const { user } = useUser();
+  const { user, refresh } = useUser();
 
   async function uploadAvatar(event) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    console.log(formData);
-
     try {
       await apiClient.post('/user/avatar', formData);
+      refresh();
     } catch (err) {
+      alert('Somethig went wrong');
       console.error(err);
     }
   }
@@ -25,6 +25,10 @@ export function ProfilePage() {
       <p>Name: {user.name}</p>
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
+      <p>
+        Avatar:{' '}
+        {user.avatar && <img src={'http://localhost:8080/uploads/' + user.avatar} alt="Avatar" />}
+      </p>
 
       <h2>Upload avatar</h2>
       <form onSubmit={uploadAvatar}>

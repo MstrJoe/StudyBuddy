@@ -23,3 +23,7 @@ code {
   --primary-color: #bd8c30;
   --primary-color-darker: #8f5712;
 }
+
+img {
+  max-width: 100%;
+}

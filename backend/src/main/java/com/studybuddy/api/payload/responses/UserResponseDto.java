@@ -15,6 +15,7 @@ public class UserResponseDto {
     private RoleResponseDto role;
     private Date createdAt;
     private Date updatedAt;
+    private String avatar;
 
     public UserResponseDto(User user) {
         this.setId(user.getId());
@@ -24,5 +25,7 @@ public class UserResponseDto {
         this.setCreatedAt(user.getCreatedAt());
         this.setUpdatedAt(user.getUpdatedAt());
         this.setRole(new RoleResponseDto(user.getRole()));
+        this.setAvatar(user.getAvatar());
+
     }
 }
