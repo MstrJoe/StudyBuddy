@@ -7,16 +7,14 @@ import com.studybuddy.api.payload.responses.UserResponseDto;
 import com.studybuddy.api.payload.input.UserUpdateDto;
 import com.studybuddy.api.repository.UserRepository;
 
+import com.studybuddy.api.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -27,6 +25,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private FileUploadService fileUploadService;
 
     @PutMapping("/me")
     public ResponseEntity<UserResponseDto> updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
@@ -59,5 +60,12 @@ public class UserController {
         User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
         UserResponseDto response = new UserResponseDto(user);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/avatar")
+    public uploadAvatar(@RequestParam("file") MultipartFile file) {
+        String path = this.fileUploadService.store(file);
+
+        
     }
 }
