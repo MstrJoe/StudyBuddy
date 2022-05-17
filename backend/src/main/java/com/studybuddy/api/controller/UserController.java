@@ -70,12 +70,16 @@ public class UserController {
     public ResponseEntity<?> uploadAvatar(@RequestParam MultipartFile file, Principal principal) {
         User currentUser = this.userService.getByPrincipal(principal);
 
-        String path = this.fileUploadService.store(currentUser.getId(), file);
+        try {
+            String path = this.fileUploadService.store(file);
+            currentUser.setAvatar(path);
 
-        currentUser.setAvatar(path);
+            this.userRepository.save(currentUser);
 
-        this.userRepository.save(currentUser);
+            return new ResponseEntity<>("Upload success", HttpStatus.OK);
 
-        return new ResponseEntity<>("Toppie", HttpStatus.OK);
+        } catch (Exception err) {
+            return new ResponseEntity<>("Upload failed", HttpStatus.BAD_REQUEST);
+        }
     }
 }

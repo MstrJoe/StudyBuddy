@@ -13,19 +13,25 @@ export function UserProvider({ children }) {
     setUser(null);
   }, []);
 
+  const refresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await apiClient.get('/user/me');
+      setUser(data);
+    } catch {
+      logout();
+    } finally {
+      setLoading(false);
+    }
+    const { data } = await apiClient.get('/user/me');
+    setUser(data);
+  }, [logout]);
+
   const initialize = useCallback(async () => {
     if (!user) {
-      setLoading(true);
-      try {
-        const { data } = await apiClient.get('/user/me');
-        setUser(data);
-      } catch {
-        logout();
-      } finally {
-        setLoading(false);
-      }
+      refresh();
     }
-  }, [logout, user]);
+  }, [refresh, user]);
 
   useEffect(() => {
     initialize();
@@ -38,6 +44,7 @@ export function UserProvider({ children }) {
         initialize,
         isLoading,
         logout,
+        refresh,
       }}
     >
       {children}
