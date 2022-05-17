@@ -8,6 +8,7 @@ import com.studybuddy.api.payload.input.UserUpdateDto;
 import com.studybuddy.api.repository.UserRepository;
 
 import com.studybuddy.api.service.FileUploadService;
+import com.studybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -32,7 +36,7 @@ public class UserController {
     @PutMapping("/me")
     public ResponseEntity<UserResponseDto> updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
 
-        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        User user = this.userService.getByPrincipal(principal);
 
         if (data.getEmail() != null) {
             user.setEmail(data.getEmail().get());
@@ -57,15 +61,21 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> currentUser(Principal principal) {
-        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        User user = this.userService.getByPrincipal(principal);
         UserResponseDto response = new UserResponseDto(user);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/avatar")
-    public uploadAvatar(@RequestParam("file") MultipartFile file) {
-        String path = this.fileUploadService.store(file);
+    public ResponseEntity<?> uploadAvatar(@RequestParam MultipartFile file, Principal principal) {
+        User currentUser = this.userService.getByPrincipal(principal);
 
-        
+        String path = this.fileUploadService.store(currentUser.getId(), file);
+
+        currentUser.setAvatar(path);
+
+        this.userRepository.save(currentUser);
+
+        return new ResponseEntity<>("Toppie", HttpStatus.OK);
     }
 }

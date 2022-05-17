@@ -12,8 +12,8 @@ import com.studybuddy.api.repository.AgendaItemSubscriberRepository;
 import com.studybuddy.api.repository.HomeworkRepository;
 import com.studybuddy.api.repository.UserRepository;
 
+import com.studybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -29,6 +29,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/agendaitem")
 public class AgendaItemController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AgendaItemRepository agendaItemRepository;
@@ -63,8 +66,7 @@ public class AgendaItemController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createAgendaItem(Principal principal,
-                                              @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
+    public ResponseEntity<?> createAgendaItem(Principal principal, @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()){
             return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -76,7 +78,7 @@ public class AgendaItemController {
             return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
         }
 
-        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        User user = this.userService.getByPrincipal(principal);
 
         Homework homework = currentHomework.get();
         AgendaItem agendaItem = new AgendaItem();
@@ -122,7 +124,7 @@ public class AgendaItemController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agenda-item not found");
         }
 
-        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        User user = this.userService.getByPrincipal(principal);
 
         AgendaItem agendaItem = currentAgendaItem.get();
 
@@ -143,15 +145,24 @@ public class AgendaItemController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agenda-item not found");
         }
 
-        User user = this.userRepository.findByUsernameOrEmail(principal.getName(), principal.getName()).get();
+        User user = this.userService.getByPrincipal(principal);
         AgendaItem agendaItem = currentAgendaItem.get();
 
-        AgendaItemSubscriber agendaItemSubscriber = new AgendaItemSubscriber();
+        Optional<AgendaItemSubscriber> currentSubscription = agendaItem.getSubscribers().stream().filter(agendaItemSubscriber -> {
+            return agendaItemSubscriber.getSubscriber().getId() == user.getId();
+        }).findFirst();
 
-        agendaItemSubscriber.setAgendaItem(agendaItem);
-        agendaItemSubscriber.setSubscriber(user);
+        // unsubscribe if already subscribed
+        if (currentSubscription.isPresent()) {
+            this.agendaItemSubscriberRepository.delete(currentSubscription.get());
+        } else {
+            AgendaItemSubscriber agendaItemSubscriber = new AgendaItemSubscriber();
 
-        this.agendaItemSubscriberRepository.save(agendaItemSubscriber);
+            agendaItemSubscriber.setAgendaItem(agendaItem);
+            agendaItemSubscriber.setSubscriber(user);
+
+            this.agendaItemSubscriberRepository.save(agendaItemSubscriber);
+        }
 
         return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
     }

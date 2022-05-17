@@ -10,7 +10,7 @@ public class FileUploadService {
 
     private String folder = "/uploads";
 
-    public String store(String folder, MultipartFile file) {
+    public String store(Long folder, MultipartFile file) {
         String path = folder + "";
         return path;
     }

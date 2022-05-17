@@ -34,6 +34,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column
+    private String avatar;
+
     @JsonIgnore // hides the field in the JSON response
     @Column
     private String password;
