@@ -68,7 +68,13 @@ public class SubjectController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
-    public ResponseEntity<SubjectResponseDto> createSubject(@PathVariable Long id, @RequestBody SubjectDto data) {
+    public ResponseEntity<?> createSubject(@PathVariable Long id,
+                                                            @RequestBody @Valid SubjectDto data, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Subject> currentSubject = this.subjectRepository.findById(id);
 
         if (currentSubject.isEmpty()) {
@@ -99,9 +105,13 @@ public class SubjectController {
 
     // @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/{subjectId}/homework")
-    public ResponseEntity<SubjectHomeworkResponseDto> createSubject(@PathVariable Long subjectId,
-            @RequestBody HomeworkDto homeworkData) {
+    public ResponseEntity<?> createSubject(@PathVariable Long subjectId,
+            @RequestBody @Valid HomeworkDto homeworkData, BindingResult bindingResult) {
         Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
 
         if (currentSubject.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");

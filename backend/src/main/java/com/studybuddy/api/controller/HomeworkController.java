@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,9 +47,13 @@ public class HomeworkController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
-    public ResponseEntity<HomeworkWithSubjectResponseDto> createHomework(@PathVariable Long id,
-            @RequestBody HomeworkDto data) {
+    public ResponseEntity<?> createHomework(@PathVariable Long id,
+                                            @RequestBody @Valid HomeworkDto data, BindingResult bindingResult) {
         Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
 
         if (currentHomework.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");

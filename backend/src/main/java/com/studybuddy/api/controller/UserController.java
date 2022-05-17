@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -34,7 +36,12 @@ public class UserController {
     private FileUploadService fileUploadService;
 
     @PutMapping("/me")
-    public ResponseEntity<UserResponseDto> updateMe(Principal principal, @Validated @RequestBody UserUpdateDto data) {
+    public ResponseEntity<?> updateMe(Principal principal,
+                                      @RequestBody @Valid UserUpdateDto data, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
 
         User user = this.userService.getByPrincipal(principal);
 

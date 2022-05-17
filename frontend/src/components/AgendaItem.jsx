@@ -12,6 +12,10 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
   const navigate = useNavigate();
 
   const canSubscribe = user.id !== item.createdBy.id && user.role.name === 'STUDENT';
+  const hasSubscribed = item.subscribers.some(item => {
+    return item.subscriber.id === user.id;
+  });
+  console.log({ hasSubscribed });
   const isCreator = user.id === item.createdBy.id;
 
   async function deleteHandler() {
@@ -59,7 +63,8 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
 
       {canSubscribe && (
         <Button onClick={subscribeHandler}>
-          Subscribe{item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
+          {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
+          {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
         </Button>
       )}
       {isCreator && <Button onClick={deleteHandler}>Delete</Button>}

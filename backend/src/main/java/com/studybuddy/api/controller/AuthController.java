@@ -61,7 +61,11 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid SignUpDto signUpDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
 
         // add check for username exists in a DB
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
