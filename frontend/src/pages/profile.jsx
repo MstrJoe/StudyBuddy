@@ -32,7 +32,7 @@ export function ProfilePage() {
 
       <h2>Upload avatar</h2>
       <form onSubmit={uploadAvatar}>
-        <input name="file" type="file" required />
+        <input name="file" type="file" accept="image/*" required />
         <button>Upload</button>
       </form>
     </>

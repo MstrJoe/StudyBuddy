@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -28,7 +29,7 @@ public class AgendaItem {
     private String description;
     private String link;
 
-    @ManyToOne()
+    @ManyToOne(optional = true)
     @JoinColumn(name = "homework_id")
     private Homework homework;
 

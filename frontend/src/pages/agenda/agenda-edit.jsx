@@ -11,7 +11,6 @@ export function AgendaItemEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  console.log('bullshit');
 
   const { data: agendaitem, isLoading } = useQuery(
     ['agendaitem', id],

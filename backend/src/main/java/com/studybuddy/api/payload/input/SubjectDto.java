@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class SubjectDto {
     @NotBlank ()
-    @Size( min = 6, max = 255)
+    @Size( min = 3, max = 255)
     private String name;
 }

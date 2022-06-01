@@ -3,6 +3,7 @@ package com.studybuddy.api.payload.responses;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class AgendaItemResponseDto {
     private Date moment;
     private String description;
     private String link;
-    private HomeworkWithSubjectResponseDto homework;
+    private Optional<HomeworkWithSubjectResponseDto> homework;
     private UserResponseDto createdBy;
     private Set<SubscriberResponseDto> subscribers;
     private Date createdAt;
@@ -27,7 +28,9 @@ public class AgendaItemResponseDto {
         this.setMoment(entity.getMoment());
         this.setDescription(entity.getDescription());
         this.setLink(entity.getLink());
-        this.setHomework(new HomeworkWithSubjectResponseDto(entity.getHomework()));
+        if( entity.getHomework() != null) {
+            this.setHomework(Optional.of(new HomeworkWithSubjectResponseDto(entity.getHomework())));
+        }
         this.setCreatedBy(new UserResponseDto(entity.getCreatedBy()));
         this.setSubscribers(
                 entity.getSubscribers().stream().map(item -> new SubscriberResponseDto(item))

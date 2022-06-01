@@ -5,11 +5,12 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.Optional;
 
 @Data
 public class AgendaItemCreateDto {
 
-    private long homeworkId;
+    private Optional<Long> homeworkId;
     @NotBlank
     @Size (min = 2, max = 255 )
     private String title;

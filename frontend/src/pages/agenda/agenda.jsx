@@ -4,10 +4,13 @@ import { useQuery } from 'react-query';
 import { Link, Outlet } from 'react-router-dom';
 
 import { AgendaItem } from '../../components/AgendaItem';
-import { Button } from '../../components/Button';
 import { apiClient } from '../../services/api';
+import { useUser } from '../../context/UserContext';
 
 export function AgendaPage() {
+  const { user } = useUser();
+  const canCreate = user.role.name === 'STUDENT';
+
   const {
     data: agendaItems = [],
     error,
@@ -23,10 +26,12 @@ export function AgendaPage() {
       <div className="page-header">
         <h1>Agenda</h1>
         <div className="actions">
-          <Link className="button" to="add">
-            <BsPlus />
-            Add new
-          </Link>
+          {canCreate && (
+            <Link className="button" to="add">
+              <BsPlus />
+              Add new
+            </Link>
+          )}
         </div>
       </div>
 

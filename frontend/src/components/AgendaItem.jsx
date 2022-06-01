@@ -15,7 +15,6 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
   const hasSubscribed = item.subscribers.some(item => {
     return item.subscriber.id === user.id;
   });
-  console.log({ hasSubscribed });
   const isCreator = user.id === item.createdBy.id;
 
   async function deleteHandler() {
@@ -42,33 +41,41 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
 
   return (
     <div className="agenda-item">
-      <h1>{item.title}</h1>
-      <p>{item.description}</p>
-      <p>Homework: {item.homework.name}</p>
-      <p>When: {dayjs(item.moment).format('DD/MM/YYYY')}</p>
-      <p>Hosted by: {item.createdBy.name}</p>
+      <div className="agenda-item-information">
+        <div className="agenda-item-info-1">
+          <h1>{item.title}</h1>
+          <p>{item.description}</p>
+          {Boolean(item.homework) && <p>Homework: {item.homework.name}</p>}
+        </div>
 
-      {item.subscribers.length > 0 && (
-        <>
-          <p>Subscribers:</p>
-          <ul>
-            {item.subscribers.map(item => (
-              <li key={item.id}>
-                <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+        <div className="agenda-item-info-2">
+          <p>When: {dayjs(item.moment).format('DD/MM/YYYY')}</p>
+          <p>Hosted by: {item.createdBy.name}</p>
+        </div>
+      </div>
+      <div className="agenda-item-buttons">
+        {item.subscribers.length > 0 && (
+          <>
+            <p>Subscribers:</p>
+            <ul>
+              {item.subscribers.map(item => (
+                <li key={item.id}>
+                  <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-      {canSubscribe && (
-        <Button onClick={subscribeHandler}>
-          {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
-          {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
-        </Button>
-      )}
-      {isCreator && <Button onClick={deleteHandler}>Delete</Button>}
-      {isCreator && <Button onClick={() => navigate(`edit/${item.id}`)}>Edit</Button>}
+        {canSubscribe && (
+          <Button onClick={subscribeHandler}>
+            {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
+            {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
+          </Button>
+        )}
+        {isCreator && <Button onClick={deleteHandler}>Delete</Button>}
+        {isCreator && <Button onClick={() => navigate(`edit/${item.id}`)}>Edit</Button>}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,18 @@
 .agenda-item {
   background-color: #fff;
   border: 1px solid #ccc;
+  border-radius: 10px;
   padding: 10px;
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #333;
   font-size: 14px;
   margin-bottom: 8px;
+}
+
+.agenda-item-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

@@ -16,6 +16,7 @@ import com.studybuddy.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -72,27 +73,35 @@ public class AgendaItemController {
             return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId());
-
-        if (currentHomework.isEmpty()) {
-            return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
-        }
-
         User user = this.userService.getByPrincipal(principal);
 
-        Homework homework = currentHomework.get();
         AgendaItem agendaItem = new AgendaItem();
         agendaItem.setTitle(agendaItemDto.getTitle());
         agendaItem.setMoment(agendaItemDto.getMoment());
         agendaItem.setDescription(agendaItemDto.getDescription());
         agendaItem.setLink(agendaItemDto.getLink());
         agendaItem.setCreatedBy(user);
-        agendaItem.setHomework(homework);
+
+        if (agendaItemDto.getHomeworkId().isPresent()) {
+            Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId().get());
+
+            if (currentHomework.isEmpty()) {
+                return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
+            }
+
+            Homework homework = currentHomework.get();
+            agendaItem.setHomework(homework);
+
+        }
+
+
         this.agendaItemRepository.save(agendaItem);
 
         return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.CREATED);
     }
 
+
+    @PreAuthorize("hasAuthority('STUDENT')")
     @PutMapping("/{id}")
     public ResponseEntity<?> createHomework(@PathVariable Long id,
                                             @RequestBody @Valid AgendaItemUpdateDto data, BindingResult bindingResult) {
@@ -116,6 +125,7 @@ public class AgendaItemController {
         return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('STUDENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAgendaItem(Principal principal, @PathVariable Long id) {
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
@@ -137,6 +147,7 @@ public class AgendaItemController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{id}/subscribe")
     public ResponseEntity<AgendaItemResponseDto> subscribe(Principal principal, @PathVariable Long id) {
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);

@@ -34,7 +34,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String avatar;
 
     @JsonIgnore // hides the field in the JSON response
