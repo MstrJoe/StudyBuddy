@@ -77,7 +77,7 @@ public class AgendaItemService {
         return new AgendaItemResponseDto(agendaItem);
     }
 
-    public AgendaItem create(Long id, AgendaItemUpdateDto data) {
+    public AgendaItem create(Long id, AgendaItemUpdateDto data) throws Exception {
 
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
 
