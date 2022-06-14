@@ -1,7 +1,6 @@
 package com.studybuddy.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.payload.input.HomeworkDto;

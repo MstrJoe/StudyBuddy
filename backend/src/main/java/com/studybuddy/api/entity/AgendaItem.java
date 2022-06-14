@@ -1,6 +1,5 @@
 package com.studybuddy.api.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +9,6 @@ import javax.persistence.*;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -38,7 +36,7 @@ public class AgendaItem {
     private User createdBy;
 
     @OneToMany(mappedBy = "agendaItem")
-    Set<AgendaItemSubscriber> subscribers =new HashSet<>();
+    Set<AgendaItemSubscriber> subscribers = new HashSet<>();
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
