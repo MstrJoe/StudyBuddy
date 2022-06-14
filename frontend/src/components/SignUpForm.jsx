@@ -28,7 +28,7 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
         {({ isSubmitting }) => {
           return (
             <Form>
-              <FormField type="text" name="name" label="Name" placeholder="Name" />
+              <FormField type="text" name="name" label="Name" placeholder="First + Last Name" />
 
               <FormField type="text" name="username" label="Username" placeholder="Username" />
 

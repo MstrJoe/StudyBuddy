@@ -14,6 +14,7 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
   const navigate = useNavigate();
 
   const [showMore, setShowMore] = useState(false);
+  const [showSubscribers, setShowSubscribers] = useState(false);
 
   const canSubscribe = user.id !== item.createdBy.id && user.role.name === 'STUDENT';
   const hasSubscribed = item.subscribers.some(item => {
@@ -62,39 +63,61 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
         </div>
 
         <div className="agenda-item-info-2">
-          <p>When: {dayjs(item.moment).format('DD/MM/YYYY')}</p>
+          <p className="agenda-item-when">When: {dayjs(item.moment).format('DD/MM/YYYY HH:mm')}</p>
           <p>Hosted by: {item.createdBy.name}</p>
         </div>
       </div>
       <div className="agenda-item-button-section">
-        {canSubscribe && (
-          <Button className="agenda-item-buttons" onClick={subscribeHandler}>
-            {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
-            {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
-          </Button>
-        )}
-        {isCreator && (
-          <Button className="agenda-item-buttons" onClick={deleteHandler}>
-            Delete
-          </Button>
-        )}
-        {isCreator && (
-          <Button className="agenda-item-buttons" onClick={() => navigate(`edit/${item.id}`)}>
-            Edit
-          </Button>
-        )}
+        <div>
+          {item.subscribers.length > 0 && (
+            <>
+              <div className="dropdown">
+                <Button
+                  className="agenda-item-show-hide-subscribers"
+                  onClick={() => setShowSubscribers(state => !state)}
+                >
+                  <p>{item.subscribers.length} Subscribers:</p>
+                  {showSubscribers ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
+                </Button>
+                {showSubscribers && (
+                  <ul>
+                    {item.subscribers.map(item => (
+                      <div className="dropdown-content">
+                        <li key={item.id}>
+                          <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
+                        </li>
+                      </div>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </>
+          )}
+        </div>
 
-        {item.subscribers.length > 0 && (
-          <>
-            <p>Subscribers:</p>
-            <ul>
-              {item.subscribers.map(item => (
-                <li key={item.id}>
-                  <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
-                </li>
-              ))}
-            </ul>
-          </>
+        <div className="agenda-item-edit-button-section">
+          <div className="agenda-item-buttons, agenda-item-delete-edit">
+            {isCreator && (
+              <Button className="agenda-item-buttons" onClick={deleteHandler}>
+                Delete
+              </Button>
+            )}
+            {isCreator && (
+              <Button className="agenda-item-buttons" onClick={() => navigate(`edit/${item.id}`)}>
+                Edit
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {canSubscribe && (
+          <Button
+            className="agenda-item-buttons, agenda-item-subscribe-button"
+            onClick={subscribeHandler}
+          >
+            {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
+            {/*{item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}*/}
+          </Button>
         )}
       </div>
     </div>
