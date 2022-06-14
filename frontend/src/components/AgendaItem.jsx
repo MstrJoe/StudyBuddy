@@ -2,14 +2,18 @@ import './AgendaItem.scss';
 
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 import { Button } from './Button';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
 export function AgendaItem({ item, onDelete, onSubscribe }) {
   const { user } = useUser();
   const navigate = useNavigate();
+
+  const [showMore, setShowMore] = useState(false);
 
   const canSubscribe = user.id !== item.createdBy.id && user.role.name === 'STUDENT';
   const hasSubscribed = item.subscribers.some(item => {
@@ -44,8 +48,17 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
       <div className="agenda-item-information">
         <div className="agenda-item-info-1">
           <h1>{item.title}</h1>
-          <p>{item.description}</p>
+          {Boolean(item.homework) && <p>Subject: {item.homework.subject.name}</p>}
           {Boolean(item.homework) && <p>Homework: {item.homework.name}</p>}
+          <Button className="show-hide-description" onClick={() => setShowMore(state => !state)}>
+            Description
+            {showMore ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
+          </Button>
+          {showMore && (
+            <div className="description">
+              <p>{item.description}</p>
+            </div>
+          )}
         </div>
 
         <div className="agenda-item-info-2">
@@ -53,7 +66,24 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
           <p>Hosted by: {item.createdBy.name}</p>
         </div>
       </div>
-      <div className="agenda-item-buttons">
+      <div className="agenda-item-button-section">
+        {canSubscribe && (
+          <Button className="agenda-item-buttons" onClick={subscribeHandler}>
+            {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
+            {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
+          </Button>
+        )}
+        {isCreator && (
+          <Button className="agenda-item-buttons" onClick={deleteHandler}>
+            Delete
+          </Button>
+        )}
+        {isCreator && (
+          <Button className="agenda-item-buttons" onClick={() => navigate(`edit/${item.id}`)}>
+            Edit
+          </Button>
+        )}
+
         {item.subscribers.length > 0 && (
           <>
             <p>Subscribers:</p>
@@ -66,15 +96,6 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
             </ul>
           </>
         )}
-
-        {canSubscribe && (
-          <Button onClick={subscribeHandler}>
-            {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
-            {item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}
-          </Button>
-        )}
-        {isCreator && <Button onClick={deleteHandler}>Delete</Button>}
-        {isCreator && <Button onClick={() => navigate(`edit/${item.id}`)}>Edit</Button>}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 .agenda-item {
-  background-color: #fff;
+  background-color: #EDE2CD;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
@@ -8,12 +8,64 @@
   align-items: center;
   color: #333;
   font-size: 14px;
+
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .agenda-item-information {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 20px;
+
+}
+.agenda-item-information p {
+  margin: 0px;
+  padding: 2px;
+  font-weight: bold;
+}
+.agenda-item-information h1 {
+  font-size: 16px;
+  padding-bottom: 5px;
+  margin: 0px;
+  color: black;
+}
+
+.show-hide-description {
+  width: 100px;
+  font-size: 10px;
+}
+
+.agenda-item-info-1 {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  color: #555555;
+}
+
+
+.agenda-item-info-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.agenda-item-button-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.agenda-item-buttons {
+  display: flex;
+  justify-content: center;
+}
+.description {
+  margin: 2px;
+  max-width: 160px;
+  border-style: solid;
+  border-color: #555555;
+  border-radius: 5px;
+  background-color: white;
 }
