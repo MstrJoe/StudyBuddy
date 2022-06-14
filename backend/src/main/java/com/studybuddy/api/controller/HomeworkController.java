@@ -1,9 +1,9 @@
 package com.studybuddy.api.controller;
 
-import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.payload.input.HomeworkDto;
 import com.studybuddy.api.payload.responses.HomeworkWithSubjectResponseDto;
-import com.studybuddy.api.repository.HomeworkRepository;
+import com.studybuddy.api.service.HomeworkService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,73 +14,51 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/homework")
 public class HomeworkController {
 
     @Autowired
-    private HomeworkRepository homeworkRepository;
+    private HomeworkService homeworkService;
 
     @GetMapping()
     public ResponseEntity<List<HomeworkWithSubjectResponseDto>> getHomeworkCollection() {
-        List<HomeworkWithSubjectResponseDto> collection = this.homeworkRepository.findAll().stream()
-                .map(item -> new HomeworkWithSubjectResponseDto(item)).collect(Collectors.toList());
-
-        return new ResponseEntity<>(collection, HttpStatus.OK);
+        return new ResponseEntity<>(homeworkService.findCollection(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<HomeworkWithSubjectResponseDto> getHomework(@PathVariable Long id) {
-        Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
-
-        if (currentHomework.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");
+        try {
+            return new ResponseEntity<>(homeworkService.findById(id), HttpStatus.OK);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
-
-        Homework homework = currentHomework.get();
-
-        return new ResponseEntity<>(new HomeworkWithSubjectResponseDto(homework), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> createHomework(@PathVariable Long id,
-                                            @RequestBody @Valid HomeworkDto data, BindingResult bindingResult) {
-        Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
-
-        if (bindingResult.hasErrors()){
-            return new ResponseEntity<> (bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateHomework(@PathVariable Long id, @RequestBody @Valid HomeworkDto data,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        if (currentHomework.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");
+        try {
+            return new ResponseEntity<>(homeworkService.update(id, data), HttpStatus.OK);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
-
-        Homework homework = currentHomework.get();
-        homework.setName(data.getName());
-        homework.setDeadline(data.getDeadline());
-        homework.setDescription(data.getDescription());
-        homework.setLink(data.getLink());
-        this.homeworkRepository.save(homework);
-
-        return new ResponseEntity<>(new HomeworkWithSubjectResponseDto(homework), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteHomework(@PathVariable Long id) {
-        Optional<Homework> currentHomework = this.homeworkRepository.findById(id);
-
-        if (currentHomework.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Homework not found");
+        try {
+            homeworkService.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
-
-        Homework homework = currentHomework.get();
-        this.homeworkRepository.delete(homework);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
