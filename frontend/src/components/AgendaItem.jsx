@@ -116,7 +116,6 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
             onClick={subscribeHandler}
           >
             {hasSubscribed ? 'Unsubscribe' : 'Subscribe'}
-            {/*{item.subscribers.length > 0 ? ` ${item.subscribers.length}` : null}*/}
           </Button>
         )}
       </div>

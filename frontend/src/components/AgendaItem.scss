@@ -8,7 +8,6 @@
   align-items: center;
   color: #333;
   font-size: 14px;
-
   margin-bottom: 15px;
   flex-wrap: wrap;
 }
@@ -26,6 +25,7 @@
   padding: 2px;
   font-weight: bold;
   color: #444444;
+  flex-wrap: wrap;
 }
 
 .agenda-item-information h1 {
@@ -63,7 +63,7 @@
 .agenda-item-buttons {
   display: flex;
   justify-content: center;
-  max-width: 100px;
+  min-width: 110px;
 }
 .description {
   margin: 2px;
@@ -89,12 +89,14 @@
 
 .agenda-item-subscribe-button {
   max-height: 40px;
+  width: 110px;
+  justify-content: center;
 }
 
 .agenda-item-show-hide-subscribers {
   max-height: 40px;
   width: auto;
-  font-size: 10px;
+  font-size: 12px;
   background-color: #DEB15D;
 }
 
