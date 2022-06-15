@@ -14,13 +14,14 @@ import com.studybuddy.api.repository.HomeworkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
 public class AgendaItemService {
 
     @Autowired
@@ -33,11 +34,9 @@ public class AgendaItemService {
     private AgendaItemSubscriberRepository agendaItemSubscriberRepository;
 
     public List<AgendaItemResponseDto> getCollection() {
-
         List<AgendaItemResponseDto> collection = this.agendaItemRepository.findByOrderByMomentAsc().stream()
                 .map(item -> new AgendaItemResponseDto(item))
                 .collect(Collectors.toList());
-
         return collection;
     }
 
@@ -95,7 +94,7 @@ public class AgendaItemService {
         return agendaItem;
     }
 
-    public void deleteForUser(User user, @PathVariable Long id) throws Exception {
+    public void deleteForUser(User user, Long id) throws Exception {
         Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
 
         if (currentAgendaItem.isEmpty()) {
