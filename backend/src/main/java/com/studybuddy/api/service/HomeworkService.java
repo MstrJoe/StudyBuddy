@@ -18,8 +18,8 @@ public class HomeworkService {
     private HomeworkRepository homeworkRepository;
 
     public List<HomeworkWithSubjectResponseDto> findCollection() {
-        List<HomeworkWithSubjectResponseDto> collection = this.homeworkRepository.findAll().stream()
-                .map(item -> new HomeworkWithSubjectResponseDto(item)).collect(Collectors.toList());
+        List<HomeworkWithSubjectResponseDto> collection = this.homeworkRepository.findAll().stream().map(
+                item -> new HomeworkWithSubjectResponseDto(item)).collect(Collectors.toList());
 
         return collection;
     }

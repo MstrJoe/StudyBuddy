@@ -83,51 +83,53 @@ public class AgendaItemController {
 //        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
 //    }
 
-    @PostMapping
-    public ResponseEntity<?> createAgendaItem (Principal principal, @RequestBody @Valid AgendaItemUpdateDto agendaItemCreate, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
-        } try {
-            return new ResponseEntity<>(agendaItemService.create(id, agendaItemCreate));
-        }
 
-        User user = this.userService.getByPrincipal(principal);
-    }
-
-
-//    @PostMapping()
-//    public ResponseEntity<?> createAgendaItem(Principal principal,
-//            @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
-//
+    //POGING TOT POSTMAPPING MET SERVICELAAG
+//    @PostMapping
+//    public ResponseEntity<?> createAgendaItem (Principal principal, @RequestBody @Valid AgendaItemUpdateDto agendaItemCreate, BindingResult bindingResult) {
 //        if (bindingResult.hasErrors()) {
 //            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+//        } try {
+//            return new ResponseEntity<>(agendaItemService.create(id, agendaItemCreate));
 //        }
 //
 //        User user = this.userService.getByPrincipal(principal);
-//
-//        AgendaItem agendaItem = new AgendaItem();
-//        agendaItem.setTitle(agendaItemDto.getTitle());
-//        agendaItem.setMoment(agendaItemDto.getMoment());
-//        agendaItem.setDescription(agendaItemDto.getDescription());
-//        agendaItem.setLink(agendaItemDto.getLink());
-//        agendaItem.setCreatedBy(user);
-//
-//        if (agendaItemDto.getHomeworkId().isPresent()) {
-//            Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId().get());
-//
-//            if (currentHomework.isEmpty()) {
-//                return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
-//            }
-//
-//            Homework homework = currentHomework.get();
-//            agendaItem.setHomework(homework);
-//
-//        }
-//
-//        this.agendaItemRepository.save(agendaItem);
-//
-//        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.CREATED);
 //    }
+
+
+    @PostMapping()
+    public ResponseEntity<?> createAgendaItem(Principal principal,
+            @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+
+        User user = this.userService.getByPrincipal(principal);
+
+        AgendaItem agendaItem = new AgendaItem();
+        agendaItem.setTitle(agendaItemDto.getTitle());
+        agendaItem.setMoment(agendaItemDto.getMoment());
+        agendaItem.setDescription(agendaItemDto.getDescription());
+        agendaItem.setLink(agendaItemDto.getLink());
+        agendaItem.setCreatedBy(user);
+
+        if (agendaItemDto.getHomeworkId().isPresent()) {
+            Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId().get());
+
+            if (currentHomework.isEmpty()) {
+                return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
+            }
+
+            Homework homework = currentHomework.get();
+            agendaItem.setHomework(homework);
+
+        }
+
+        this.agendaItemRepository.save(agendaItem);
+
+        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.CREATED);
+    }
 
     @PreAuthorize("hasAuthority('STUDENT')")
     @PutMapping("/{id}")
@@ -165,7 +167,7 @@ public class AgendaItemController {
 
         User user = this.userService.getByPrincipal(principal);
 
-//        AgendaItem agendaItem = currentAgendaItem.get();
+        AgendaItem agendaItem = currentAgendaItem.get();
 
         if (user.getId() != agendaItem.getCreatedBy().getId()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

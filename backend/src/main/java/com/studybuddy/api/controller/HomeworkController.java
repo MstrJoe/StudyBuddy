@@ -39,11 +39,10 @@ public class HomeworkController {
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateHomework(@PathVariable Long id, @RequestBody @Valid HomeworkDto data,
-            BindingResult bindingResult) {
+                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-
         try {
             return new ResponseEntity<>(homeworkService.update(id, data), HttpStatus.OK);
         } catch (Exception err) {
