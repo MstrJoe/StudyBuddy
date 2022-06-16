@@ -6,13 +6,15 @@ import com.studybuddy.api.entity.Homework;
 import com.studybuddy.api.payload.input.HomeworkDto;
 import com.studybuddy.api.payload.responses.HomeworkWithSubjectResponseDto;
 import com.studybuddy.api.repository.HomeworkRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class HomeworkService {
-    @Autowired
+
     private HomeworkRepository homeworkRepository;
 
     public List<HomeworkWithSubjectResponseDto> findCollection() {

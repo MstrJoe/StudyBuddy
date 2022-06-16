@@ -45,6 +45,8 @@ public class AgendaItemController {
     @Autowired
     private AgendaItemService agendaItemService;
 
+
+//Getmapping  all is done
     @GetMapping()
     public ResponseEntity<List<AgendaItemResponseDto>> getAgendaItemCollection() {
         return new ResponseEntity<>(agendaItemService.getCollection(), HttpStatus.OK);
@@ -59,6 +61,9 @@ public class AgendaItemController {
 //
 //        return new ResponseEntity<>(collection, HttpStatus.OK);
 //    }
+
+
+    //Get by id is done
     @GetMapping("/{id}")
     public ResponseEntity<AgendaItemResponseDto> getAgendaItem(@PathVariable Long id) {
         try {
@@ -78,39 +83,51 @@ public class AgendaItemController {
 //        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
 //    }
 
-    @PostMapping()
-    public ResponseEntity<?> createAgendaItem(Principal principal,
-            @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
-
+    @PostMapping
+    public ResponseEntity<?> createAgendaItem (Principal principal, @RequestBody @Valid AgendaItemUpdateDto agendaItemCreate, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        } try {
+            return new ResponseEntity<>(agendaItemService.create(id, agendaItemCreate));
         }
 
         User user = this.userService.getByPrincipal(principal);
-
-        AgendaItem agendaItem = new AgendaItem();
-        agendaItem.setTitle(agendaItemDto.getTitle());
-        agendaItem.setMoment(agendaItemDto.getMoment());
-        agendaItem.setDescription(agendaItemDto.getDescription());
-        agendaItem.setLink(agendaItemDto.getLink());
-        agendaItem.setCreatedBy(user);
-
-        if (agendaItemDto.getHomeworkId().isPresent()) {
-            Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId().get());
-
-            if (currentHomework.isEmpty()) {
-                return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
-            }
-
-            Homework homework = currentHomework.get();
-            agendaItem.setHomework(homework);
-
-        }
-
-        this.agendaItemRepository.save(agendaItem);
-
-        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.CREATED);
     }
+
+
+//    @PostMapping()
+//    public ResponseEntity<?> createAgendaItem(Principal principal,
+//            @RequestBody @Valid AgendaItemCreateDto agendaItemDto, BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+//        }
+//
+//        User user = this.userService.getByPrincipal(principal);
+//
+//        AgendaItem agendaItem = new AgendaItem();
+//        agendaItem.setTitle(agendaItemDto.getTitle());
+//        agendaItem.setMoment(agendaItemDto.getMoment());
+//        agendaItem.setDescription(agendaItemDto.getDescription());
+//        agendaItem.setLink(agendaItemDto.getLink());
+//        agendaItem.setCreatedBy(user);
+//
+//        if (agendaItemDto.getHomeworkId().isPresent()) {
+//            Optional<Homework> currentHomework = this.homeworkRepository.findById(agendaItemDto.getHomeworkId().get());
+//
+//            if (currentHomework.isEmpty()) {
+//                return new ResponseEntity<>("Homework not found", HttpStatus.NOT_FOUND);
+//            }
+//
+//            Homework homework = currentHomework.get();
+//            agendaItem.setHomework(homework);
+//
+//        }
+//
+//        this.agendaItemRepository.save(agendaItem);
+//
+//        return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.CREATED);
+//    }
 
     @PreAuthorize("hasAuthority('STUDENT')")
     @PutMapping("/{id}")
@@ -136,39 +153,28 @@ public class AgendaItemController {
         return new ResponseEntity<>(new AgendaItemResponseDto(agendaItem), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyAuthority('STUDENT')")
+
+    @PreAuthorize("hasAuthority('STUDENT')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteAgendaItem(User user, @PathVariable Long id) {
-        try {
-            agendaItemService.deleteForUser(user, id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception err) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
+    public ResponseEntity<?> deleteAgendaItem(Principal principal, @PathVariable Long id) {
+        Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
+
+        if (currentAgendaItem.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agenda-item not found");
         }
-    }
 
+        User user = this.userService.getByPrincipal(principal);
 
-//    @PreAuthorize("hasAuthority('STUDENT')")
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteAgendaItem(Principal principal, @PathVariable Long id) {
-//        Optional<AgendaItem> currentAgendaItem = this.agendaItemRepository.findById(id);
-//
-//        if (currentAgendaItem.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agenda-item not found");
-//        }
-//
-//        User user = this.userService.getByPrincipal(principal);
-//
 //        AgendaItem agendaItem = currentAgendaItem.get();
-//
-//        if (user.getId() != agendaItem.getCreatedBy().getId()) {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
-//
-//        this.agendaItemRepository.delete(agendaItem);
-//
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+
+        if (user.getId() != agendaItem.getCreatedBy().getId()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        this.agendaItemRepository.delete(agendaItem);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{id}/subscribe")
