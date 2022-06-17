@@ -88,7 +88,7 @@ public class SubjectController {
     }
 
 
-//    @PreAuthorize("hasAuthority('TEACHER')")
+    //    @PreAuthorize("hasAuthority('TEACHER')")
 //    @PostMapping()
 //    public ResponseEntity<?> createSubject(@RequestBody @Valid SubjectDto data, BindingResult bindingResult) {
 //
@@ -101,68 +101,113 @@ public class SubjectController {
 //
 //        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.CREATED);
 //    }
-
+    //Putmapping omgezet naar service
     @PreAuthorize("hasAuthority('TEACHER')")
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<?> updateSubject(@PathVariable Long id, @RequestBody @Valid SubjectDto data,
                                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+        try {
 
-        Optional<Subject> currentSubject = this.subjectRepository.findById(id);
-
-        if (currentSubject.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+            return new ResponseEntity<>(subjectService.putSubject(id, data), HttpStatus.OK);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
-
-        Subject subject = currentSubject.get();
-        subject.setName(data.getName());
-        this.subjectRepository.save(subject);
-
-        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.OK);
     }
 
+
+//    @PreAuthorize("hasAuthority('TEACHER')")
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updateSubject(@PathVariable Long id, @RequestBody @Valid SubjectDto data,
+//                                           BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+//        }
+//
+//        Optional<Subject> currentSubject = this.subjectRepository.findById(id);
+//
+//        if (currentSubject.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+//        }
+//
+//        Subject subject = currentSubject.get();
+//        subject.setName(data.getName());
+//        this.subjectRepository.save(subject);
+//
+//        return new ResponseEntity<>(new SubjectResponseDto(subject), HttpStatus.OK);
+//    }
+
+    //Delete mapping omgezet naar service
     @PreAuthorize("hasAuthority('TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
-        Optional<Subject> currentSubject = this.subjectRepository.findById(id);
-
-        if (currentSubject.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+        try {
+            subjectService.deleteSubject(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
-
-        Subject subject = currentSubject.get();
-        this.subjectRepository.delete(subject);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // @PreAuthorize("hasAuthority('TEACHER')")
+
+//
+//    @PreAuthorize("hasAuthority('TEACHER')")
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<HttpStatus> deleteSubject(@PathVariable Long id) {
+//        Optional<Subject> currentSubject = this.subjectRepository.findById(id);
+//
+//        if (currentSubject.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+//        }
+//
+//        Subject subject = currentSubject.get();
+//        this.subjectRepository.delete(subject);
+//
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+
+    @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/{subjectId}/homework")
     public ResponseEntity<?> createSubject(@PathVariable Long subjectId, @RequestBody @Valid HomeworkDto homeworkData,
                                            BindingResult bindingResult) {
-        Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
-
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        } try {
+            return new ResponseEntity<>(subjectService.createSubjectHomework(subjectId, homeworkData), HttpStatus.OK);
+        } catch (Exception err) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }
 
-        if (currentSubject.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
-        }
-
-        Subject subject = currentSubject.get();
-        Homework homework = new Homework();
-        homework.setName(homeworkData.getName());
-        homework.setDeadline(homeworkData.getDeadline());
-        homework.setDescription(homeworkData.getDescription());
-        homework.setLink(homeworkData.getLink());
-        homework.setSubject(subject);
-        this.homeworkRepository.save(homework);
-
-        return new ResponseEntity<>(new SubjectHomeworkResponseDto(homework), HttpStatus.CREATED);
     }
+
+//    @PreAuthorize("hasAuthority('TEACHER')")
+//    @PostMapping("/{subjectId}/homework")
+//    public ResponseEntity<?> createSubject(@PathVariable Long subjectId, @RequestBody @Valid HomeworkDto homeworkData,
+//                                           BindingResult bindingResult) {
+//        Optional<Subject> currentSubject = this.subjectRepository.findById(subjectId);
+//
+//        if (bindingResult.hasErrors()) {
+//            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (currentSubject.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subject not found");
+//        }
+//
+//        Subject subject = currentSubject.get();
+//        Homework homework = new Homework();
+//        homework.setName(homeworkData.getName());
+//        homework.setDeadline(homeworkData.getDeadline());
+//        homework.setDescription(homeworkData.getDescription());
+//        homework.setLink(homeworkData.getLink());
+//        homework.setSubject(subject);
+//        this.homeworkRepository.save(homework);
+//
+//        return new ResponseEntity<>(new SubjectHomeworkResponseDto(homework), HttpStatus.CREATED);
+//    }
 
 }

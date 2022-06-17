@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class HomeworkService {
 
+    @Autowired
     private HomeworkRepository homeworkRepository;
 
     public List<HomeworkWithSubjectResponseDto> findCollection() {
