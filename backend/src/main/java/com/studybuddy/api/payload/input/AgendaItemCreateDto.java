@@ -17,7 +17,7 @@ public class AgendaItemCreateDto {
     @FutureOrPresent
     private Date moment;
     @NotBlank
-    @Size (min = 2, max = 1000 )
+    @Size (min = 2, max = 1000)
     private String description;
     @URL
     private String link;

@@ -34,7 +34,7 @@ public class AgendaItemService {
     private AgendaItemSubscriberRepository agendaItemSubscriberRepository;
 
     public List<AgendaItemResponseDto> getCollection() {
-        List<AgendaItemResponseDto> collection = this.agendaItemRepository.findByOrderByMomentAsc().stream()
+        List<AgendaItemResponseDto> collection = this.agendaItemRepository.findByOrderByMomentDesc().stream()
                 .map(item -> new AgendaItemResponseDto(item))
                 .collect(Collectors.toList());
         return collection;

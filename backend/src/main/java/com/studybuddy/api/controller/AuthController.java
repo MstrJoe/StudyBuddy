@@ -95,7 +95,7 @@ public class AuthController {
         // sign user in after account has been created
         this.signUserIn(user.getEmail(), signUpDto.getPassword());
 
-        return new ResponseEntity<UserResponseDto>(new UserResponseDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.OK);
     }
 
     private void signUserIn(String usernameOrEmail, String password) {

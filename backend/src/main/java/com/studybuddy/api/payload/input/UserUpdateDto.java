@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserUpdateDto {
-    @NotBlank
+    @NotBlank (message = "Name can not be empty")
     private Optional<String> name;
-    @NotBlank
+    @NotBlank (message = "Username cannot be empty")
     private Optional<String> username;
     @Email
     private Optional<String> email;
