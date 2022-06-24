@@ -2,19 +2,12 @@ package com.studybuddy.api.service;
 
 import com.studybuddy.api.entity.User;
 import com.studybuddy.api.payload.input.UserUpdateDto;
-import com.studybuddy.api.payload.responses.UserResponseDto;
 import com.studybuddy.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @Service

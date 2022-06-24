@@ -23,14 +23,12 @@ public class SubjectController {
     @Autowired
     private SubjectService subjectService;
 
-    //Get all Omgezet naar service
     @GetMapping
     public ResponseEntity<List<SubjectResponseDto>> getSubjectCollection() {
         return new ResponseEntity<>(subjectService.findCollection(), HttpStatus.OK);
     }
 
 
-    //Get by ID omgezet naar service
     @GetMapping("/{id}")
     public ResponseEntity<SubjectResponseDto> getSubject(@PathVariable Long id) {
         try {
@@ -40,9 +38,8 @@ public class SubjectController {
         }
     }
 
-    //Postmapping omgezet naar service
     @PreAuthorize("hasAuthority('TEACHER')")
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<?> createSubject(@RequestBody @Valid SubjectDto data, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -54,7 +51,6 @@ public class SubjectController {
         }
     }
 
-    //Putmapping omgezet naar service
     @PreAuthorize("hasAuthority('TEACHER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSubject(@PathVariable Long id, @RequestBody @Valid SubjectDto data,
