@@ -8,9 +8,13 @@ export function HomeworkItem({ homework, onSuccess }) {
   const navigate = useNavigate();
 
   async function deleteHandler() {
-    if (confirm(`Are you sure you want to delete ${homework.name} ?`)) {
-      await apiClient.delete(`/homework/${homework.id}`);
-      onSuccess();
+    try {
+      if (confirm(`Are you sure you want to delete ${homework.name} ?`)) {
+        await apiClient.delete(`/homework/${homework.id}`);
+        onSuccess();
+      }
+    } catch {
+      alert('This homework is beïng used in the Agenda, therefore it cannot be deleted');
     }
   }
 
@@ -22,7 +26,7 @@ export function HomeworkItem({ homework, onSuccess }) {
     <li className="homework-item">
       <div className="info">
         <h5>{homework.name}</h5>
-        <p>Deadline {dayjs(homework.deadline).format('DD/MM/YYYY')}</p>
+        <p>Deadline {dayjs(homework.deadline).format('DD/MM/YYYY HH:MM')}</p>
       </div>
 
       <div className="actions">

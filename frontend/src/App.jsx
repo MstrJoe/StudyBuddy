@@ -1,5 +1,7 @@
 import './index.css';
-
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 
@@ -14,6 +16,11 @@ import { SubjectDetailPage } from './pages/subjects/detail';
 import { HomeworkCreatePage } from './pages/subjects/homework-create';
 import { HomeworkEditPage } from './pages/subjects/homework-edit';
 import { SubjectsPage } from './pages/subjects/subjects';
+
+// set the default timezone
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Europe/Amsterdam');
 
 const teacherNav = [
   {

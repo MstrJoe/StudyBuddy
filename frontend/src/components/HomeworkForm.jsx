@@ -24,6 +24,7 @@ export function HomeworkForm({ initialValues = defaultValues, onSubmit, mode }) 
           placeholder="Insert name here"
         ></FormField>
         <FormField
+          required
           as="textarea"
           name="description"
           label="Description"

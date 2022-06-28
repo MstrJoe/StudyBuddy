@@ -17,7 +17,7 @@ export function LoginPage() {
       await apiClient.post('/auth/signin', values);
       initialize();
     } catch (err) {
-      alert('Something went wrong');
+      alert('Wrong Email or Password');
     }
   }
 

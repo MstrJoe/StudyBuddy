@@ -14,9 +14,13 @@ export function SubjectItem({ subject, onSuccess }) {
   const [showMore, setShowMore] = useState(false);
 
   async function deleteHandler() {
-    if (confirm('Are you sure you want to delete this subject?')) {
-      await apiClient.delete(`/subject/${subject.id}`);
-      onSuccess();
+    try {
+      if (confirm('Are you sure you want to delete this subject?')) {
+        await apiClient.delete(`/subject/${subject.id}`);
+        onSuccess();
+      }
+    } catch {
+      alert('Delete the homework items from this subject first');
     }
   }
 

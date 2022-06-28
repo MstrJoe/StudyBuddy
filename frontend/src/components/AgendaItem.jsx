@@ -8,8 +8,9 @@ import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
 import { Button } from './Button';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import classNames from 'classnames';
 
-export function AgendaItem({ item, onDelete, onSubscribe }) {
+export function AgendaItem({ item, isPast, onDelete, onSubscribe }) {
   const { user } = useUser();
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
       onDelete();
     } catch (err) {
       if (err.response.status === 403) {
-        alert('You are not allowed to delete');
+        alert('You are not allowed to delete because there are subscribers');
       } else {
         alert('Something went wrong');
       }
@@ -45,21 +46,23 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
   }
 
   return (
-    <div className="agenda-item">
+    <div className={classNames('agenda-item', isPast && 'is-past')}>
       <div className="agenda-item-information">
         <div className="agenda-item-info-1">
           <h1>{item.title}</h1>
           {Boolean(item.homework) && <p>Subject: {item.homework.subject.name}</p>}
           {Boolean(item.homework) && <p>Homework: {item.homework.name}</p>}
-          <Button className="show-hide-description" onClick={() => setShowMore(state => !state)}>
-            Description
-            {showMore ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
-          </Button>
-          {showMore && (
-            <div className="description">
-              <p>{item.description}</p>
-            </div>
-          )}
+          <div className="toggle-container">
+            <Button className="show-hide-description" onClick={() => setShowMore(state => !state)}>
+              Description
+              {showMore ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
+            </Button>
+            {showMore && (
+              <div className="description">
+                <p>{item.description}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="agenda-item-info-2">
@@ -80,15 +83,17 @@ export function AgendaItem({ item, onDelete, onSubscribe }) {
                   {showSubscribers ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
                 </Button>
                 {showSubscribers && (
-                  <ul>
+                  <>
                     {item.subscribers.map(item => (
                       <div className="dropdown-content">
-                        <li key={item.id}>
-                          <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
-                        </li>
+                        <ul>
+                          <li key={item.id}>
+                            <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
+                          </li>
+                        </ul>
                       </div>
                     ))}
-                  </ul>
+                  </>
                 )}
               </div>
             </>

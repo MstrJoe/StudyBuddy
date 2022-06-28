@@ -10,6 +10,7 @@ export function SubjectForm({ initialValues = defaultValues, onSubmit, mode }) {
     <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
       <Form>
         <FormField
+          required
           autoFocus
           name="name"
           label="Subject name"

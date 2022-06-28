@@ -6,6 +6,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { AgendaItem } from '../../components/AgendaItem';
 import { apiClient } from '../../services/api';
 import { useUser } from '../../context/UserContext';
+import dayjs from 'dayjs';
 
 export function AgendaPage() {
   const { user } = useUser();
@@ -21,6 +22,9 @@ export function AgendaPage() {
     return data;
   });
 
+  const futureItems = agendaItems.filter(item => dayjs(item.moment) >= dayjs());
+  const pastItems = agendaItems.filter(item => dayjs(item.moment) < dayjs());
+
   return (
     <>
       <div className="page-header">
@@ -35,8 +39,20 @@ export function AgendaPage() {
         </div>
       </div>
 
-      {agendaItems.map(item => (
+      <h2>Future agenda items</h2>
+      {futureItems.reverse().map(item => (
         <AgendaItem
+          key={item.id}
+          onDelete={() => refetch()}
+          onSubscribe={() => refetch()}
+          item={item}
+        />
+      ))}
+
+      <h2>Past agenda items</h2>
+      {pastItems.map(item => (
+        <AgendaItem
+          isPast
           key={item.id}
           onDelete={() => refetch()}
           onSubscribe={() => refetch()}

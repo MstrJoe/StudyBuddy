@@ -10,6 +10,16 @@
   font-size: 14px;
   margin-bottom: 15px;
   flex-wrap: wrap;
+  gap: 15px;
+  transition: opacity 200ms ease-in-out;
+
+  &.is-past {
+    opacity: 0.5;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .agenda-item-information {
@@ -59,20 +69,28 @@
   flex-direction: row;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 .agenda-item-buttons {
   display: flex;
   justify-content: center;
   min-width: 110px;
 }
+
+.toggle-container {
+  margin-top: 10px;
+  position: relative;
+}
+
 .description {
   margin: 2px;
   max-width: 160px;
-  border-style: solid;
-  border-color: #555555;
+  border: 1px solid #000000;
   border-radius: 5px;
   background-color: white;
   font-size: 13px;
+  position: absolute;
+  z-index: 1;
 }
 
 .agenda-item-when {
@@ -103,25 +121,29 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .dropdown-content {
+  margin-top: 8px;
   position: absolute;
   width: auto;
   background-color: #f1f1f1;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 5px;
-}
-.dropdown-content li {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
 
+  li {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  &:hover {background-color: #ddd;}
+  }
 }
-
-.dropdown-content li:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
