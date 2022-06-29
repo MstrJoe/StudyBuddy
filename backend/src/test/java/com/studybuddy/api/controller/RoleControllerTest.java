@@ -26,9 +26,7 @@ class RoleControllerTest {
     @MockBean
     private RoleService roleService;
 
-    /**
-     * Method under test: {@link RoleController#getRoles()}
-     */
+
     @Test
     void testGetRoles() throws Exception {
         when(this.roleService.getCollection()).thenReturn(new ArrayList<>());
@@ -38,16 +36,5 @@ class RoleControllerTest {
                 MockMvcResultMatchers.content().string("[]"));
     }
 
-    /**
-     * Method under test: {@link RoleController#getRoles()}
-     */
-    @Test
-    void testGetRoles2() throws Exception {
-        when(this.roleService.getCollection()).thenReturn(new ArrayList<>());
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/role");
-        getResult.contentType("https://example.org/example");
-        MockMvcBuilders.standaloneSetup(this.roleController).build().perform(getResult).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(
-                MockMvcResultMatchers.content().contentType("application/json")).andExpect(MockMvcResultMatchers.content().string("[]"));
-    }
 }
 

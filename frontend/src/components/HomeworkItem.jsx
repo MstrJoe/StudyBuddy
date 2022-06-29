@@ -26,7 +26,7 @@ export function HomeworkItem({ homework, onSuccess }) {
     <li className="homework-item">
       <div className="info">
         <h5>{homework.name}</h5>
-        <p>Deadline {dayjs(homework.deadline).format('DD/MM/YYYY HH:MM')}</p>
+        <p>Deadline {dayjs(homework.deadline).format('DD/MM/YYYY HH:mm')}</p>
       </div>
 
       <div className="actions">

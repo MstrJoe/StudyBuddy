@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Drawer } from '../../components/Drawer';
 import { HomeworkForm } from '../../components/HomeworkForm';
 import { apiClient } from '../../services/api';
+import { BackButton } from '../../components/BackButton';
 
 export function HomeworkEditPage() {
   const { id: homeworkId } = useParams();
@@ -22,6 +23,9 @@ export function HomeworkEditPage() {
       const { deadlineDate, deadlineTime, ...input } = values;
       input.deadline = dayjs(`${deadlineDate} ${deadlineTime}`).format();
       await apiClient.put(`/homework/${homeworkId}`, input);
+      // invalidate the cache for subjects so that the subjects are reloaded and the edited data is shown
+      await queryClient.invalidateQueries('subjects');
+
       navigate('/subjects');
     } catch {
       alert('Something went wrong');
@@ -34,10 +38,7 @@ export function HomeworkEditPage() {
 
   return (
     <Drawer onClose={() => navigate('/subjects')}>
-      <Link to="/subjects">
-        <BiArrowBack />
-        Back
-      </Link>
+      <BackButton to="/subjects">Back</BackButton>
       <h2>Edit homework "{homework.name}"</h2>
       {!isLoading && (
         <HomeworkForm

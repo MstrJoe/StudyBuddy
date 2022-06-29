@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 
 import { Button } from './Button';
 import { FormField } from './FormField';
+import { isDateToday } from '../utils/isDateToday';
 
 export function AgendaItemForm({ initialValues, onSubmit, mode, subjects }) {
   const defaultValues = {
@@ -78,7 +79,13 @@ export function AgendaItemForm({ initialValues, onSubmit, mode, subjects }) {
             min={dayjs(new Date()).format('YYYY-MM-DD')}
             label="Start date"
           ></FormField>
-          <FormField required name="startTime" type="time" label="Start time"></FormField>
+          <FormField
+            required
+            name="startTime"
+            type="time"
+            min={isDateToday(values.startDate) ? dayjs(new Date()).format('HH:mm') : undefined}
+            label="Start time"
+          ></FormField>
           <Button type="submit">{mode === 'edit' ? 'Edit' : 'Add'} agenda item</Button>
         </Form>
       )}

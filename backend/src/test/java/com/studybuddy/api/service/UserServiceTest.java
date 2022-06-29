@@ -133,9 +133,6 @@ class UserServiceTest {
         verify(this.passwordEncoder).encode((CharSequence) any());
     }
 
-    /**
-     * Method under test: {@link UserService#uploadAvatar(org.springframework.web.multipart.MultipartFile, User)}
-     */
     @Test
     void testUploadAvatar() throws Exception {
         Role role = new Role();
@@ -187,9 +184,7 @@ class UserServiceTest {
         verify(this.fileUploadService).store((org.springframework.web.multipart.MultipartFile) any());
     }
 
-    /**
-     * Method under test: {@link UserService#uploadAvatar(org.springframework.web.multipart.MultipartFile, User)}
-     */
+
     @Test
     void testUploadAvatar2() throws Exception {
         Role role = new Role();

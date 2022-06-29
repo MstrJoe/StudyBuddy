@@ -83,17 +83,15 @@ export function AgendaItem({ item, isPast, onDelete, onSubscribe }) {
                   {showSubscribers ? <BiChevronUp size={15} /> : <BiChevronDown size={15} />}
                 </Button>
                 {showSubscribers && (
-                  <>
-                    {item.subscribers.map(item => (
-                      <div className="dropdown-content">
-                        <ul>
-                          <li key={item.id}>
-                            <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
-                          </li>
-                        </ul>
-                      </div>
-                    ))}
-                  </>
+                  <div className="dropdown-content">
+                    <ul>
+                      {item.subscribers.map(item => (
+                        <li key={item.id}>
+                          <a href={`mailto:${item.subscriber.email}`}>{item.subscriber.name}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             </>

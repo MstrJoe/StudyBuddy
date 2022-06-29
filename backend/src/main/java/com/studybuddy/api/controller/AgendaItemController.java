@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/agendaitem")
 public class AgendaItemController {
-§
+
     @Autowired
     private UserService userService;
 
@@ -77,7 +77,7 @@ public class AgendaItemController {
         }
 
         try {
-            return new ResponseEntity<>(agendaItemService.create(id, data), HttpStatus.OK);
+            return new ResponseEntity<>(new AgendaItemResponseDto(agendaItemService.create(id, data)), HttpStatus.OK);
         } catch (Exception err) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, err.getMessage());
         }

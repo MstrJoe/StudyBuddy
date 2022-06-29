@@ -35,9 +35,6 @@ class RoleServiceTest {
     @Autowired
     private RoleService roleService;
 
-    /**
-     * Method under test: {@link RoleService#getCollection()}
-     */
     @Test
     void testGetCollection() {
         when(this.roleRepository.findAll()).thenReturn(new ArrayList<>());
@@ -45,9 +42,6 @@ class RoleServiceTest {
         verify(this.roleRepository).findAll();
     }
 
-    /**
-     * Method under test: {@link RoleService#getCollection()}
-     */
     @Test
     void testGetCollection2() {
         Role role = new Role();
@@ -67,9 +61,6 @@ class RoleServiceTest {
         verify(this.roleRepository).findAll();
     }
 
-    /**
-     * Method under test: {@link RoleService#getCollection()}
-     */
     @Test
     void testGetCollection3() {
         Role role = new Role();
