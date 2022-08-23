@@ -67,6 +67,7 @@ export function AgendaItemForm({ initialValues, onSubmit, mode, subjects }) {
             placeholder="Insert description"
             required
           ></FormField>
+
           <FormField
             name="link"
             type="url"

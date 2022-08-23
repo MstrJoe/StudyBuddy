@@ -51,7 +51,21 @@ export function AgendaItem({ item, isPast, onDelete, onSubscribe }) {
         <div className="agenda-item-info-1">
           <h1>{item.title}</h1>
           {Boolean(item.homework) && <p>Subject: {item.homework.subject.name}</p>}
-          {Boolean(item.homework) && <p>Homework: {item.homework.name}</p>}
+          {Boolean(item.homework) && (
+            <>
+              <p>
+                Homework:
+                {item.homework.link ? (
+                  <a href={item.homework.link} target="_blank" rel="noreferrer">
+                    {item.homework.name}
+                  </a>
+                ) : (
+                  item.homework.name
+                )}
+              </p>
+              <p>Deadline: {dayjs(item.homework.deadline).format('DD-MM-YYYY')}</p>
+            </>
+          )}
           <div className="toggle-container">
             <Button className="show-hide-description" onClick={() => setShowMore(state => !state)}>
               Description
@@ -68,6 +82,11 @@ export function AgendaItem({ item, isPast, onDelete, onSubscribe }) {
         <div className="agenda-item-info-2">
           <p className="agenda-item-when">When: {dayjs(item.moment).format('DD/MM/YYYY HH:mm')}</p>
           <p>Hosted by: {item.createdBy.name}</p>
+          {item.link && (
+            <a href={item.link} target="_blank" rel="noreferrer">
+              Link
+            </a>
+          )}
         </div>
       </div>
       <div className="agenda-item-button-section">

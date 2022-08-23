@@ -11,6 +11,10 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  color: #8f5712;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

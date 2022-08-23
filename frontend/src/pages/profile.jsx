@@ -37,7 +37,7 @@ export function ProfilePage() {
     <>
       <div className="avatar-page">
         <AvatarUpload
-          avatar={`http://localhost:8080/uploads/${user.avatar}`}
+          avatar={user.avatar && `http://localhost:8080/uploads/${user.avatar}`}
           onDrop={uploadAvatar}
         />
 
