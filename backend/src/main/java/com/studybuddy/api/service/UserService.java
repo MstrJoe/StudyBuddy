@@ -53,6 +53,10 @@ public class UserService {
         return user;
     }
 
+    public void delete(User user) {
+        this.userRepository.delete(user);
+    }
+
     public User uploadAvatar(MultipartFile file, User user) throws Exception {
 
         try {

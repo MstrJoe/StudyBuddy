@@ -16,6 +16,7 @@ import { SubjectDetailPage } from './pages/subjects/detail';
 import { HomeworkCreatePage } from './pages/subjects/homework-create';
 import { HomeworkEditPage } from './pages/subjects/homework-edit';
 import { SubjectsPage } from './pages/subjects/subjects';
+import { HowItWorksPage } from './pages/how-it-works';
 
 // set the default timezone
 dayjs.extend(utc);
@@ -33,12 +34,22 @@ const teacherNav = [
     to: 'agenda',
     icon: null,
   },
+  {
+    label: 'How it works',
+    to: 'how-it-works',
+    icon: null,
+  },
 ];
 
 const studentNav = [
   {
     label: 'Agenda',
     to: 'agenda',
+    icon: null,
+  },
+  {
+    label: 'How it works',
+    to: 'how-it-works',
     icon: null,
   },
 ];
@@ -74,6 +85,8 @@ function App() {
         </Route>
 
         <Route path="/profile" element={<ProfilePage />} />
+
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
 
         <Route path="*" element={<Navigate to={'/agenda'} />} />
       </Routes>

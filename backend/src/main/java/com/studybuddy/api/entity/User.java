@@ -40,14 +40,14 @@ public class User {
     @Column
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "createdBy")
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<AgendaItem> agendaItemsCreated;
 
-    @OneToMany(mappedBy = "subscriber")
+    @OneToMany(mappedBy = "subscriber", cascade = CascadeType.ALL)
     Set<AgendaItemSubscriber> agendaItemSubscribed;
 
     @CreationTimestamp

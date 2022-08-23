@@ -28,15 +28,33 @@ export function SignUpForm({ onSubmit, initialValues = defaultValues }) {
         {({ isSubmitting }) => {
           return (
             <Form>
-              <FormField type="text" name="name" label="Name" placeholder="First + Last Name" />
+              <FormField
+                type="text"
+                name="name"
+                label="Name"
+                placeholder="First + Last Name"
+                required
+              />
 
-              <FormField type="text" name="username" label="Username" placeholder="Username" />
+              <FormField
+                type="text"
+                name="username"
+                label="Username"
+                placeholder="Username"
+                required
+              />
 
-              <FormField type="email" name="email" label="E-mail" placeholder="E-mail" />
+              <FormField type="email" name="email" label="E-mail" placeholder="E-mail" required />
 
-              <FormField type="password" name="password" label="Password" placeholder="Password" />
+              <FormField
+                type="password"
+                name="password"
+                label="Password"
+                placeholder="Password"
+                required
+              />
 
-              <FormField as="select" name="roleId" label="Role">
+              <FormField as="select" name="roleId" label="Role" required>
                 <option value="" disabled selected>
                   Pick one
                 </option>

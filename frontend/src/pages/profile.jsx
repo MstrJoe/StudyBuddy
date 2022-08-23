@@ -1,8 +1,9 @@
-import { MyDropzone } from '../components/MyDropzone';
 import { useUser } from '../context/UserContext';
 import { apiClient } from '../services/api';
-import './profile.scss';
 import { AvatarUpload } from '../components/AvatarUpload';
+import { Button } from '../components/Button';
+
+import './profile.scss';
 
 export function ProfilePage() {
   const { user, refresh } = useUser();
@@ -14,6 +15,18 @@ export function ProfilePage() {
     try {
       await apiClient.post('/user/avatar', formData);
       refresh();
+    } catch (err) {
+      alert('Something went wrong');
+      console.error(err);
+    }
+  }
+
+  async function deleteAccount() {
+    try {
+      if (confirm('Are you sure you want to delete your account')) {
+        await apiClient.delete('/user/me');
+        refresh();
+      }
     } catch (err) {
       alert('Something went wrong');
       console.error(err);
@@ -35,6 +48,9 @@ export function ProfilePage() {
           <p>Username: {user.username}</p>
           <p>Email: {user.email}</p>
         </div>
+
+        <h2>Delete account</h2>
+        <Button onClick={deleteAccount}>Delete my account</Button>
       </div>
     </>
   );

@@ -35,7 +35,7 @@ public class AgendaItem {
     @JoinColumn(name = "user_id")
     private User createdBy;
 
-    @OneToMany(mappedBy = "agendaItem")
+    @OneToMany(mappedBy = "agendaItem", cascade = CascadeType.ALL)
     Set<AgendaItemSubscriber> subscribers = new HashSet<>();
 
     @CreationTimestamp

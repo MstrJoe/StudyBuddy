@@ -39,7 +39,7 @@ export function AgendaPage() {
         </div>
       </div>
 
-      <h2>Future agenda items</h2>
+      <h2 className="agenda-title">Future agenda items:</h2>
       {futureItems.reverse().map(item => (
         <AgendaItem
           key={item.id}
@@ -49,7 +49,7 @@ export function AgendaPage() {
         />
       ))}
 
-      <h2>Past agenda items</h2>
+      <h2 className="agenda-title">Past agenda items:</h2>
       {pastItems.map(item => (
         <AgendaItem
           isPast

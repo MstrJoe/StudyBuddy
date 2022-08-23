@@ -39,6 +39,16 @@ public class UserController {
         return new ResponseEntity<>(new UserResponseDto(updatedUser), HttpStatus.OK);
     }
 
+    @DeleteMapping("/me")
+    public ResponseEntity<?> updateMe(Principal principal) {
+
+        User user = this.userService.getByPrincipal(principal);
+
+        this.userService.delete(user);
+
+        return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.OK);
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> currentUser(Principal principal) {
         User user = this.userService.getByPrincipal(principal);
