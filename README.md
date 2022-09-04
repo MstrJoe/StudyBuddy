@@ -1,20 +1,20 @@
 # Installatiehandleiding:
 
-###Wat is er nodig om deze applicatie te runnen?
+### Wat is er nodig om deze applicatie te runnen?
 
-#####2 besturingssystemen:
+#### 2 besturingssystemen:
 - IntelliJ
 - Webstorm
 
-#####Database software:
+##### Database software:
 - Postgres
 - TablePlus
 
-#####overige software:
+##### overige software:
 - Java
 - Node.js 
 
-#####Broncode
+##### Broncode
 
 Broncode van de applicatie.
 
