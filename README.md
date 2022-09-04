@@ -1,6 +1,5 @@
 # Installatiehandleiding:
 
--
 
 ### Wat is er nodig om deze applicatie te runnen?
 
