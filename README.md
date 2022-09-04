@@ -1,6 +1,4 @@
-# Installatiehandleiding:
-
--
+## Installatiehandleiding:
 
 ### Wat is er nodig om deze applicatie te runnen?
 
@@ -203,9 +201,8 @@ Nu alles draait wens ik je veel plezier met het ontdekken van de applicatie.
 Om mijzelf een hoop typwerk te besparen heb ik er voor gekozen een dependency genaamd `swagger` toe te voegen aan de applicatie.
 Deze dependency maakt het mogelijk om in de browser een volledig overzicht te krijgen van alle endpoints, deze daar ook te gebruiken of te testen en weergeeft de volledige informatie van alle endpoints.
 
-Dit overzicht is te vinden door naar de volgende link te gaan wanneer de applicatie draait: [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)   
+Dit overzicht is te vinden door naar de volgende link te gaan wanneer de applicatie draait: [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
 
--
 
 
 ### Einde van de installatiehandleiding.
