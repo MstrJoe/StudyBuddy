@@ -17,7 +17,6 @@
 
 ##### Broncode
 
-Broncode van de applicatie.
 
 ## Broncode downloaden
 
