@@ -21,9 +21,9 @@ export function HowItWorksPage() {
         <br />
         This item can be about homework that a teacher has put in the system,
         <br />
-        or it can be about any subject you would like to work on together with other students.
+        or it can be about any subject you would like to work on together with other students
         <br />- You can subscribe to somebody else's agenda item if you would like to join that
-        homework moment.
+        homework moment
         <br />
         <br />
         <p>You have subscribers on your item or you subscribed on somebody's item, then what? </p>
@@ -34,11 +34,11 @@ export function HowItWorksPage() {
       <h2>Logged in as a teacher you can:</h2>
 
       <p>
-        - Go to the subject page and add a subject (class).git ad
-        <br />- Add homework for the students within a subject.
-        <br />- Edit, change or delete the subjects or homework you have created yourself.
+        - Go to the subject page and add a subject (class)
+        <br />- Add homework for the students within a subject
+        <br />- Edit, change or delete the subjects or homework you have created yourself
         <br />- Go to the agenda page and see what the students have put on it, so you might also
-        see where the students are struggling most.
+        see where the students are struggling most
       </p>
 
       <br />
